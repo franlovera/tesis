@@ -23,8 +23,8 @@
 
 /** CONFIGURATION **************************************************/
 #if defined(PIC24F_STARTER_KIT)
-    _CONFIG1( JTAGEN_OFF & GCP_OFF & GWRP_OFF & FWDTEN_OFF & ICS_PGx1)
-    _CONFIG2( PLL_96MHZ_ON & IESO_OFF & FCKSM_CSDCMD & OSCIOFNC_ON & POSCMOD_HS & FNOSC_PRIPLL & PLLDIV_DIV2 & IOL1WAY_ON)
+_CONFIG1(JTAGEN_OFF & GCP_OFF & GWRP_OFF & FWDTEN_OFF & ICS_PGx1)
+_CONFIG2(PLL_96MHZ_ON & IESO_OFF & FCKSM_CSDCMD & OSCIOFNC_ON & POSCMOD_HS & FNOSC_PRIPLL & PLLDIV_DIV2 & IOL1WAY_ON)
 #endif
 
 
@@ -35,16 +35,16 @@
 char USB_Out_Buffer[CDC_DATA_OUT_EP_SIZE];
 char RS232_Out_Data[CDC_DATA_IN_EP_SIZE];
 
-unsigned char  NextUSBOut;
-unsigned char    NextUSBOut;
+unsigned char NextUSBOut;
+unsigned char NextUSBOut;
 //char RS232_In_Data;
-unsigned char    LastRS232Out;  // Number of characters in the buffer
-unsigned char    RS232cp;       // current position within the buffer
+unsigned char LastRS232Out; // Number of characters in the buffer
+unsigned char RS232cp; // current position within the buffer
 unsigned char RS232_Out_Data_Rdy = 0;
-USB_HANDLE  lastTransmission;
+USB_HANDLE lastTransmission;
 
-USB_HANDLE USBOutHandle = 0;  //Needs to be initialized to 0 at startup.
-USB_HANDLE USBInHandle = 0;   //Needs to be initialized to 0 at startup.
+USB_HANDLE USBOutHandle = 0; //Needs to be initialized to 0 at startup.
+USB_HANDLE USBInHandle = 0; //Needs to be initialized to 0 at startup.
 BOOL blinkStatusValid = TRUE;
 
 char USB_In_Buffer[64];
@@ -54,22 +54,22 @@ volatile BOOL buttonPressed;
 volatile BYTE buttonCount;
 
 
-        UINT SPICON1Value;
-   UINT SPICON2Value;
-   UINT SPISTATValue,variable_aux;
+UINT SPICON1Value;
+UINT SPICON2Value;
+UINT SPISTATValue, variable_aux;
 
 
-   int8_t register_value,devid;
- int16_t x_accel_low,y_accel_low,z_accel_low,x_accel_high,y_accel_high,z_accel_high;
- uint16_t x_accel=0, y_accel=0, z_accel=0;
- int msec;
-    char output_data[1000];
-    char name_file[30],datatime[50];
-       int measurement=1,counter,string_length,sw_power,adcPtr;
+int8_t register_value, devid;
+int16_t x_accel_low, y_accel_low, z_accel_low, x_accel_high, y_accel_high, z_accel_high;
+uint16_t x_accel = 0, y_accel = 0, z_accel = 0;
+uint16_t msec;
+char output_data[1000];
+char name_file[30], datatime[50];
+int measurement = 1, counter, string_length, sw_power, adcPtr;
 
-           rtccTimeDate RtccTimeDate ,RtccTimeDateVal;
-    int a,i;
-    
+rtccTimeDate RtccTimeDate, RtccTimeDateVal;
+int a, i;
+
 FSFILE *logFile;
 
 #if defined(__C30__) || defined(__C32__) || defined __XC16__
@@ -81,8 +81,7 @@ FSFILE *logFile;
 //  In this example the media initialization function is named 
 //  "MediaInitialize", the read capacity function is named "ReadCapacity",
 //  etc.  
-LUN_FUNCTIONS LUN[MAX_LUN + 1] =
-{
+LUN_FUNCTIONS LUN[MAX_LUN + 1] ={
     {
         &MDD_SDSPI_MediaInitialize,
         &MDD_SDSPI_ReadCapacity,
@@ -97,26 +96,22 @@ LUN_FUNCTIONS LUN[MAX_LUN + 1] =
 
 /* Standard Response to INQUIRY command stored in ROM 	*/
 const ROM InquiryResponse inq_resp = {
-	0x00,		// peripheral device is connected, direct access block device
-	0x80,           // removable
-	0x04,	 	// version = 00=> does not conform to any standard, 4=> SPC-2
-	0x02,		// response is in format specified by SPC-2
-	0x20,		// n-4 = 36-4=32= 0x20
-	0x00,		// sccs etc.
-	0x00,		// bque=1 and cmdque=0,indicates simple queueing 00 is obsolete,
-			// but as in case of other device, we are just using 00
-	0x00,		// 00 obsolete, 0x80 for basic task queueing
-	{'M','i','c','r','o','c','h','p'
-    },
-	// this is the T10 assigned Vendor ID
-	{'M','a','s','s',' ','S','t','o','r','a','g','e',' ',' ',' ',' '
-    },
-	{'0','0','0','1'
-    }
+    0x00, // peripheral device is connected, direct access block device
+    0x80, // removable
+    0x04, // version = 00=> does not conform to any standard, 4=> SPC-2
+    0x02, // response is in format specified by SPC-2
+    0x20, // n-4 = 36-4=32= 0x20
+    0x00, // sccs etc.
+    0x00, // bque=1 and cmdque=0,indicates simple queueing 00 is obsolete,
+    // but as in case of other device, we are just using 00
+    0x00, // 00 obsolete, 0x80 for basic task queueing
+    {'M', 'i', 'c', 'r', 'o', 'c', 'h', 'p'},
+    // this is the T10 assigned Vendor ID
+    {'M', 'a', 's', 's', ' ', 'S', 't', 'o', 'r', 'a', 'g', 'e', ' ', ' ', ' ', ' '},
+    {'0', '0', '0', '1'}
 };
 
 /** PRIVATE PROTOTYPES *********************************************/
-static void InitializeSystem(void);
 void USBDeviceTasks(void);
 void ProcessIO(void);
 void YourHighPriorityISRCode(void);
@@ -126,274 +121,13 @@ void BlinkUSBStatus(void);
 void UserInit(void);
 void InitializeUSART(void);
 void putcUSART(char c);
-unsigned char getcUSART ();
+unsigned char getcUSART();
 
 
 
 
 /** DECLARATIONS ***************************************************/
 
- int8_t read_accel_register(int8_t reg) {
-    CS=0;
-    __delay_us(10);
-    SPI2BUF = (READ | reg);
-    //putcSPI2(READ | reg);
-    while(SPI2STATbits.SPIRBF == 0);
-    register_value=SPI2BUF;
-    SPI2BUF = (0x00);
-    while(SPI2STATbits.SPIRBF == 0);
-    //register_value = getcSPI2();
-    register_value=SPI2BUF;
-
-    __delay_us(10);
-    CS=1;
-    return (register_value);
-
-}
-
-
-
-
-void setup_accelerometer(void) {
-   // set interrupt enable register
-   CS=0;
-   __delay_us(1);
-   SPI2BUF = (WRITE | INT_ENABLE_REGISTER);
-    while(SPI2STATbits.SPIRBF == 0);
-    a=SPI2BUF;
-
-    SPI2BUF = (INT_ENABLE_VALUE);
-    while(SPI2STATbits.SPIRBF == 0);
-    a=SPI2BUF;
-   __delay_us(1);
-   CS=1;
-
-   // set interrupt map register
-   CS=0;
-  __delay_us(1);
-    SPI2BUF = (WRITE | INT_MAP_REGISTER);
-    while(SPI2STATbits.SPIRBF == 0);
-    a=SPI2BUF;
-
-   SPI2BUF = (INT_MAP_VALUE);
-    while(SPI2STATbits.SPIRBF == 0);
-    a=SPI2BUF;
-
-   __delay_us(1);
-   CS=1;
-
-   // set data format register appropriately
-
-   CS=0;
-   __delay_us(1);
-   SPI2BUF = (WRITE | DATA_FORMAT_REGISTER);
-   while(SPI2STATbits.SPIRBF == 0);
-   a=SPI2BUF;
-
-   SPI2BUF = (DATA_FORMAT_VALUE);
-   while(SPI2STATbits.SPIRBF == 0);
-   a=SPI2BUF;
-   __delay_us(1);
-   CS=1;
-
-   // set rate register to 6.25Hz conversion, no power saving mode
-   CS=0;
-   __delay_us(1);
-   SPI2BUF = (WRITE | BW_RATE_REGISTER);
-   while(SPI2STATbits.SPIRBF == 0);
-   a=SPI2BUF;
-
-   SPI2BUF = (NO_POWER_SAVING | HZ_100);
-   while(SPI2STATbits.SPIRBF == 0);
-   a=SPI2BUF;
-   __delay_us(1);
-   CS=1;
-
-   // set FIFO control register
-   CS=0;
-   __delay_us(1);
-   SPI2BUF = (WRITE | FIFO_CONTROL_REGISTER);
-   while(SPI2STATbits.SPIRBF == 0);
-   a=SPI2BUF;
-
-   SPI2BUF =   (FIFO_CONTROL_VALUE);
-   while(SPI2STATbits.SPIRBF == 0);
-   a=SPI2BUF;
-
-   __delay_us(1);
-   CS=1;
-
-   // set power control register appropriately
-   CS=0;
-  __delay_us(1);
-  SPI2BUF = (WRITE | POWER_CONTROL_REGISTER);
-  while(SPI2STATbits.SPIRBF == 0);
-  a=SPI2BUF;
-
-  SPI2BUF = (POWER_CONTROL_VALUE);
-  while(SPI2STATbits.SPIRBF == 0);
-  a=SPI2BUF;
-
-   __delay_us(1);
-   CS=1;
-   measurement=1;
-}
-
-void read_accel(void) {
-    counter=0;
-    string_length=0;
-
-    while(counter<=31){
-        CS=0;
-        asm("nop");
-        asm("nop");
-        SPI2BUF =  (READ | MULTIBYTE_TRANSFER | DATA_REG);
-        while(SPI2STATbits.SPIRBF == 0);
-        a=SPI2BUF;
-
-        SPI2BUF = (0x00);
-        while(SPI2STATbits.SPIRBF == 0);
-        x_accel_low=SPI2BUF;
-        SPI2BUF = (0x00);
-        while(SPI2STATbits.SPIRBF == 0);
-        x_accel_high = SPI2BUF; // x high byte
-
-        SPI2BUF = (0x00);
-        while(SPI2STATbits.SPIRBF == 0);
-        y_accel_low=SPI2BUF;
-        SPI2BUF = (0x00);
-        while(SPI2STATbits.SPIRBF == 0);
-        y_accel_high = SPI2BUF; // y high byte
-
-
-        SPI2BUF = (0x00);
-        while(SPI2STATbits.SPIRBF == 0);
-        z_accel_low=SPI2BUF;
-        SPI2BUF = (0x00);
-        while(SPI2STATbits.SPIRBF == 0);
-        z_accel_high = SPI2BUF; // z high byte
-
-        asm("nop");
-        asm("nop");
-        CS=1;
-
-        x_accel = (x_accel_high << 8) | x_accel_low ;
-        y_accel = (y_accel_high << 8) | y_accel_low ;
-        z_accel = (z_accel_high << 8) | z_accel_low ;
-
-        string_length += sprintf(output_data+string_length,"%4i,%4i,%4i,%x,%x,%x,%u\n",
-        x_accel,y_accel,z_accel,RtccTimeDateVal.f.hour,RtccTimeDateVal.f.min,RtccTimeDateVal.f.sec,msec);
-
-        counter++;
-        //a=counter & 0x01;
-        //if(a==0)
-        //    msec+=312;
-        //else
-        //    msec+=313;
-        msec+=625;
-
-        if (msec>=31250){
-            msec-=31250;
-            if(RtccTimeDateVal.f.sec<=0x58)
-                RtccTimeDateVal.f.sec=inc_BCD(RtccTimeDateVal.f.sec);
-            else{
-                RtccTimeDateVal.f.sec=0;
-                if(RtccTimeDateVal.f.min<=0x58)
-                    RtccTimeDateVal.f.min=inc_BCD(RtccTimeDateVal.f.min);
-                else{
-                    RtccTimeDateVal.f.min=0;
-                    if(RtccTimeDateVal.f.hour<=0x22)
-                        RtccTimeDateVal.f.hour=inc_BCD(RtccTimeDateVal.f.hour);
-                    else{
-                        RtccTimeDateVal.f.hour=0;
-                   }
-               }
-         }
-      }
-  }
-
-
-
-
-
-
-
-        // if(x_accel>=0x0F00){
-        //     x_accel |=0xF000;
-        //     x_accel= ~x_accel +1 ;
-        //     x_g = -1*(x_accel * 0.00390625);
-        // }
-        // else
-        //      x_g = (x_accel * 0.00390625);
-        //
-        //
-        //  if(y_accel>=0x0F00){
-        //     y_accel |=0xF000;
-        //     y_accel= ~y_accel +1 ;
-        //       y_g = -1*(y_accel * 0.00390625);
-        // }
-        //  else
-        //     y_g = (y_accel * 0.00390625);
-        //
-        //
-        //  if(z_accel>=0x0F00){
-        //       z_accel |= 0xF000;
-        //     z_accel= ~z_accel +1 ;
-        //       z_g = -1*(z_accel * 0.00390625);
-        // }
-        //  else
-        //            z_g = (z_accel * 0.00390625);
-        //
-        //
-
-
-}
-
-void standby_mode(){
-         //enter standby
-    CS=0;
-    __delay_us(10);
-    SPI2BUF = (WRITE | POWER_CONTROL_REGISTER);
-    while(SPI2STATbits.SPIRBF == 0);
-    register_value=SPI2BUF;
-    SPI2BUF = (0x00);
-    while(SPI2STATbits.SPIRBF == 0);
-    //register_value = getcSPI2();
-    register_value=SPI2BUF;
-
-    __delay_us(10);
-    CS=1;
-}
-
-void measurement_mode(){
-    //enter measurement mode
-    CS=0;
-    __delay_us(10);
-    SPI2BUF = (WRITE | POWER_CONTROL_REGISTER);
-    while(SPI2STATbits.SPIRBF == 0);
-    register_value=SPI2BUF;
-    SPI2BUF = (POWER_CONTROL_VALUE);
-    while(SPI2STATbits.SPIRBF == 0);
-  //register_value = getcSPI2();
-    register_value=SPI2BUF;
-
-    __delay_us(10);
-    CS=1;
-}
-
-int read_power_mode(){
-    CS=0;
-    __delay_us(10);
-    SPI2BUF = (READ | POWER_CONTROL_REGISTER );
-    while(SPI2STATbits.SPIRBF == 0);
-    a=SPI2BUF;
-    SPI2BUF = (0x00);
-    while(SPI2STATbits.SPIRBF == 0);
-    register_value=SPI2BUF;
-    __delay_us(10);
-    CS=1;
-    return register_value;
-}
 
 
 
@@ -413,118 +147,119 @@ int read_power_mode(){
  * Note:            None
  *****************************************************************************/
 
- #if defined(__18CXX)
+#if defined(__18CXX)
 void main(void)
 #else 
+
 int main(void)
 #endif
 {
-    InitializeSystem();
-       mRtccOn();
-      RtccWriteTimeDate(&RtccTimeDate,0);
-        setup_accelerometer();                      //configuramos el accel
-      devid=read_accel_register(0x00);
-          sw_power = PORTEbits.RE4;
-//         while (!FSInit());
-          measurement=0;
+    InitializeSystem((unsigned char*) &RtccTimeDateVal);
+    InitRTCC(&RtccTimeDateVal);
+    measurement = setup_accelerometer(); //configuramos el accel
+    devid = read_accel_register(0x00);
+    sw_power = PORTEbits.RE4;
+    //         while (!FSInit());
+    measurement = 0;
 
 
-    while(1)
-    {
-          if((USBDeviceState == DETACHED_STATE)){
-             if(sw_power==1){
-      if (measurement==0){              //si no esta en measurement mode, lo pone en este modo
-           IEC0bits.AD1IE = 0;			// disable A/D interrupt
-           ConfigIntTimer3(T3_INT_OFF | T3_INT_PRIOR_5);
-           while (!FSInit());                          //esperamos hasta inicializar la tarjeta SD
-           setup_accelerometer();                      //configuramos el accel
-           measurement=1;
-           while(mRtccIs2ndHalfSecond());
-           while(!mRtccIs2ndHalfSecond());              //nos garantiza que el RTCC y el timer3 usado para mS esten sincronizados
-           OpenTimer3(T3_ON | T3_PS_1_256,31250);
-           IEC0bits.AD1IE = 1;			// Enable A/D interrupt
-           }
-    if( PORTDbits.RD5==1)                  //si salta la interupcion lee los datos del accel
-    {
-         if(logFile != NULL)                //si el archivo esta abierto lee datos y escribe al file
-         {
-              IEC0bits.AD1IE = 0;			// disable A/D interrupt
-              read_accel();
-              FSfprintf(logFile,output_data);
-//            FSfwrite( output_data, 2100, 1, logFile);
-              toggle_led1();
-              IEC0bits.AD1IE = 1;			// Enable A/D interrupt
-              }
-         else{                               //si el archivo no esta abierto, lee la hora, y abre un archivo nuevo
-              IEC0bits.AD1IE = 0;			// disable A/D interrupt
-              RtccReadTimeDate(&RtccTimeDateVal);
-              sprintf(name_file,"%x.%x.%x  %x-%x-%x.csv",RtccTimeDateVal.f.hour,RtccTimeDateVal.f.min,RtccTimeDateVal.f.sec, RtccTimeDateVal.f.mday,RtccTimeDateVal.f.mon,RtccTimeDateVal.f.year);
-              logFile = FSfopen( name_file,"w");
-              FSfprintf(logFile,"x,y,z,hr,min,sec,msec\n\0");
-              msec=ReadTimer3();
-              IEC0bits.AD1IE = 1;			// Enable A/D interrupt
-              //                       logFile = FSfopen("log.csv","w");
+    while (1) {
+#if defined(USB_INTERRUPT)
+        if (USB_BUS_SENSE && (USBGetDeviceState() == DETACHED_STATE)) {
+            USBDeviceAttach();
+        } else // ADDED BY ANGUEL
+            if ((USB_BUS_SENSE != 1) && (USBGetDeviceState() != DETACHED_STATE)) {
+            USBDeviceDetach();
+        }
+#endif
+
+#if defined(USB_POLLING)
+        // Check bus status and service USB interrupts.
+        USBDeviceTasks(); // Interrupt or polling method.  If using polling, must call
+        // this function periodically.  This function will take care
+        // of processing and responding to SETUP transactions
+        // (such as during the enumeration process when you first
+        // plug in).  USB hosts require that USB devices should accept
+        // and process SETUP packets in a timely fashion.  Therefore,
+        // when using polling, this function should be called
+        // regularly (such as once every 1.8ms or faster** [see
+        // inline code comments in usb_device.c for explanation when
+        // "or faster" applies])  In most cases, the USBDeviceTasks()
+        // function does not take very long to execute (ex: <100
+        // instruction cycles) before it returns.
+#endif
+
+        ProcessIO();
+
+
+        if ((USBDeviceState == DETACHED_STATE)) {
+            if (sw_power == 1) {
+                if (measurement == 0) { //si no esta en measurement mode, lo pone en este modo
+                    IEC0bits.AD1IE = 0; // disable A/D interrupt
+                    InitializeSystem((unsigned char*) &RtccTimeDateVal);
+                    ConfigIntTimer3(T3_INT_OFF | T3_INT_PRIOR_5);
+
+                    while (!FSInit()); //esperamos hasta inicializar la tarjeta SD
+                   measurement= setup_accelerometer(); //configuramos el accel
+                    while (mRtccIs2ndHalfSecond());
+                    while (!mRtccIs2ndHalfSecond()); //nos garantiza que el RTCC y el timer3 usado para mS esten sincronizados
+                    OpenTimer3(T3_ON | T3_PS_1_256, 31250);
+                    IEC0bits.AD1IE = 1; // Enable A/D interrupt
                 }
-    }
-
-    else
-        a=0;
-        }
-        else{
-                 IEC0bits.AD1IE = 0;			// disable A/D interrupt
-       if(logFile != NULL){                                                         //y el file esta abierto, lo cierra
-           FSfclose(logFile);
-           logFile = NULL;
+                if (PORTDbits.RD5 == 1) //si salta la interupcion lee los datos del accel
+                {
+                    if (logFile != NULL) //si el archivo esta abierto lee datos y escribe al file
+                    {
+                        IEC0bits.AD1IE = 0; // disable A/D interrupt
+                        msec= read_accel(&output_data[0], &RtccTimeDateVal, msec);
+                        FSfprintf(logFile, output_data);
+                        //            FSfwrite( output_data, 2100, 1, logFile);
+                        toggle_led1();
+                        IEC0bits.AD1IE = 1; // Enable A/D interrupt
+                    } else { //si el archivo no esta abierto, lee la hora, y abre un archivo nuevo
+                        IEC0bits.AD1IE = 0; // disable A/D interrupt
+                        RtccReadTimeDate(&RtccTimeDateVal);
+                        sprintf(name_file, "%x.%x.%x  %x-%x-%x.csv", RtccTimeDateVal.f.hour, RtccTimeDateVal.f.min, RtccTimeDateVal.f.sec, RtccTimeDateVal.f.mday, RtccTimeDateVal.f.mon, RtccTimeDateVal.f.year);
+                        logFile = FSfopen(name_file, "w");
+                        FSfprintf(logFile, "x,y,z,hr,min,sec,msec\n\0");
+                        msec = ReadTimer3();
+                        IEC0bits.AD1IE = 1; // Enable A/D interrupt
+                        //                       logFile = FSfopen("log.csv","w");
                     }
-//      if (measurement==1){                    //si esta en measurement, lo pone en standby sino no hace nada
-          standby_mode();
-          measurement=0;
-         mPORTGClearBits(BIT_6);
-//                    to do apagar todos los modulos
-                 Sleep();
-//          }
+                }
+                else
+                    a = 0;
+            } else {
+                IEC0bits.AD1IE = 0; // disable A/D interrupt
+                if (logFile != NULL) { //y el file esta abierto, lo cierra
+                    FSfclose(logFile);
+                    logFile = NULL;
+                }
+                //      if (measurement==1){                    //si esta en measurement, lo pone en standby sino no hace nada
+              measurement=  standby_mode();
+                
+                mPORTGClearBits(BIT_6);
+                //                    to do apagar todos los modulos
+                CloseTimer3();
+                CloseSPI2();
+                CloseSPI1();
+                AD1CON1bits.ADON = 0;
+
+                Sleep();
+                //          }
+            }
         }
-       }
-                 if(!(USBDeviceState == DETACHED_STATE)){
-           if(logFile != NULL){
+        if (!(USBDeviceState == DETACHED_STATE)) {
+            if (logFile != NULL) {
                 FSfclose(logFile);
                 logFile = NULL;
                 mPORTGClearBits(BIT_6);
-                measurement=0;
-           }
-       }
-           #if defined(USB_INTERRUPT)
-             if(USB_BUS_SENSE && (USBGetDeviceState() == DETACHED_STATE))
-             {
-                 USBDeviceAttach();
-             }
-             else    // ADDED BY ANGUEL
-             if((USB_BUS_SENSE != 1) && (USBGetDeviceState() != DETACHED_STATE))
-             {
-                 USBDeviceDetach();
-             }
-         #endif
+                measurement = 0;
+            }
+        }
 
-        #if defined(USB_POLLING)
-		// Check bus status and service USB interrupts.
-        USBDeviceTasks(); // Interrupt or polling method.  If using polling, must call
-        				  // this function periodically.  This function will take care
-        				  // of processing and responding to SETUP transactions
-        				  // (such as during the enumeration process when you first
-        				  // plug in).  USB hosts require that USB devices should accept
-        				  // and process SETUP packets in a timely fashion.  Therefore,
-        				  // when using polling, this function should be called
-        				  // regularly (such as once every 1.8ms or faster** [see
-        				  // inline code comments in usb_device.c for explanation when
-        				  // "or faster" applies])  In most cases, the USBDeviceTasks()
-        				  // function does not take very long to execute (ex: <100
-        				  // instruction cycles) before it returns.
-        #endif
-    			
-        ProcessIO();        
     }//end while
 }//end main
-
 
 /********************************************************************
  * Function:        static void InitializeSystem(void)
@@ -546,189 +281,162 @@ int main(void)
  *
  * Note:            None
  *******************************************************************/
-static void InitializeSystem(void)
-{
+//static void InitializeSystem(void) {
+//
+//    mPORTFClearBits(BIT_4);
+//    mPORTGClearBits(BIT_6 | BIT_8);
+//    mPORTFOutputConfig(BIT_4);
+//    mPORTGOutputConfig(BIT_6 | BIT_8);
+//    mPORTDInputConfig(BIT_5);
+//    mPORTDInputConfig(BIT_2);
+//
+//    CS = 1;
+//    CS_TRIS = 0;
+//
+//
+//    /* RD6/CN15 is S3 */
+//    TRISEbits.TRISE4 = 1; // make the port as input
+//    CNEN4bits.CN62IE = 1; // enable interrupt
+//    CNPU4bits.CN62PUE = 0; // disable pull-up resistor
+//    IFS1bits.CNIF = 0; // clear IF
+//    IPC4bits.CNIP = 3; // set IP as 7
+//    IEC1bits.CNIE = 1; // enable CN
+//
+//
+//
+//
+//    //***************** Set the TIME & DATA and TIME *****************************************
+//    RtccTimeDate.f.hour = 0x10;
+//    RtccTimeDate.f.min = 0x39;
+//    RtccTimeDate.f.sec = 0;
+//    RtccTimeDate.f.mday = 0x08;
+//    RtccTimeDate.f.mon = 0x09;
+//    RtccTimeDate.f.year = 0x14;
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    //Initialize the SPI  memory
+//    iPPSInput(IN_FN_PPS_SDI1, IN_PIN_PPS_RP13); //SDI1=RP13 EN PLACA FINAL
+//    iPPSOutput(OUT_PIN_PPS_RP28, OUT_FN_PPS_SDO1); //SDO1=RP28
+//    iPPSOutput(OUT_PIN_PPS_RP6, OUT_FN_PPS_SCK1OUT); //SCK1=RP6
+//
+//    //		CNPU5bits.CN68PUE = 1;
+//
+//    //spi acceler
+//    iPPSInput(IN_FN_PPS_SDI2, IN_PIN_PPS_RP24); //SDI2=RP24
+//    iPPSOutput(OUT_PIN_PPS_RP22, OUT_FN_PPS_SDO2); //SDO2=RP22
+//    iPPSOutput(OUT_PIN_PPS_RP25, OUT_FN_PPS_SCK2OUT); //SCK2=RP25
+//
+//
+//
+//    SPICON1Value = SPI_MODE8_ON | MASTER_ENABLE_ON | PRI_PRESCAL_1_1 | SEC_PRESCAL_4_1 | SLAVE_ENABLE_OFF | SPI_CKE_OFF | CLK_POL_ACTIVE_LOW;
+//    SPICON2Value = FRAME_ENABLE_OFF;
+//    SPISTATValue = SPI_ENABLE;
+//    OpenSPI2(SPICON1Value, SPICON2Value, SPISTATValue);
+//
+//
+//
+//
+//
+//    //AD1CON1 Register
+//    // Data Output Format: integer
+//    AD1CON1bits.FORM = 0;
+//    // Sample Clock Source: Timer 3 starts conversion
+//    //to do ver si esto es la forma mas eficiente, conviene controlar esto no cada 1 segundo en el timer 3 sino cada mas tiempo
+//    AD1CON1bits.SSRC = 2;
+//
+//
+//    // ADC Sample Control: Sampling begins when samp is set
+//    AD1CON1bits.ASAM = 1;
+//
+//    //AD1CON2 Register
+//    // Generate interrupt every 16 sample/conversion
+//    // to do ver si conviene cambiar esto para que salte menos frecuentemente
+//    AD1CON2bits.SMPI = 0;
+//    // Buffer configured as one 16-word buffers
+//    AD1CON2bits.BUFM = 0;
+//
+//    //AD1CON3 Register
+//    // ADC Clock is derived from Systems Clock
+//    AD1CON3bits.ADRC = 0;
+//
+//    // ADC Conversion Clock Tad=Tcy*(ADCS+1)=(1/8M)*2*32 = 8us (125Khz)
+//    // ADC Conversion Time for 10-bit Tc=12*Tab = 96us
+//    AD1CON3bits.ADCS = 31;
+//
+//
+//    //AD1CHS0: A/D Input Select Register
+//    // MUXA +ve input selection (AIN5) for CH0
+//    // MUXA -ve input selection (Vref-) for CH0
+//    AD1CHS = 9;
+//
+//    //AD1PCFGH/AD1PCFGL: Port Configuration Register
+//    AD1PCFG = 0xFFFF;
+//    AD1PCFGbits.PCFG9 = 0; // AN5 as Analog Input
+//
+//    //AD1CSSH/AD1CSSL: A/D Input Scan Selection Register
+//    // Channel Scan is disabled, default state
+//    AD1CSSL = 0x0000;
+//
+//    IFS0bits.AD1IF = 0; // Clear the A/D interrupt flag bit
+//    IEC0bits.AD1IE = 1; // Enable A/D interrupt
+//    AD1CON1bits.ADON = 1; // Turn on the A/D converter
+//
+//
+//
+//
+//
+//
+//
+//    //	The USB specifications require that USB peripheral devices must never source
+//    //	current onto the Vbus pin.  Additionally, USB peripherals should not source
+//    //	current on D+ or D- when the host/hub is not actively powering the Vbus line.
+//    //	When designing a self powered (as opposed to bus powered) USB peripheral
+//    //	device, the firmware should make sure not to turn on the USB module and D+
+//    //	or D- pull up resistor unless Vbus is actively powered.  Therefore, the
+//    //	firmware needs some means to detect when Vbus is being powered by the host.
+//    //	A 5V tolerant I/O pin can be connected to Vbus (through a resistor), and
+//    // 	can be used to detect when Vbus is high (host actively powering), or low
+//    //	(host is shut down or otherwise not supplying power).  The USB firmware
+//    // 	can then periodically poll this I/O pin to know when it is okay to turn on
+//    //	the USB module/D+/D- pull up resistor.  When designing a purely bus powered
+//    //	peripheral device, it is not possible to source current on D+ or D- when the
+//    //	host is not actively providing power on Vbus. Therefore, implementing this
+//    //	bus sense feature is optional.  This firmware can be made to use this bus
+//    //	sense feature by making sure "USE_USB_BUS_SENSE_IO" has been defined in the
+//    //	HardwareProfile.h file.
+//#if defined(USE_USB_BUS_SENSE_IO)
+//    tris_usb_bus_sense = INPUT_PIN; // See HardwareProfile.h
+//#endif
+//
+//    //	If the host PC sends a GetStatus (device) request, the firmware must respond
+//    //	and let the host know if the USB peripheral device is currently bus powered
+//    //	or self powered.  See chapter 9 in the official USB specifications for details
+//    //	regarding this request.  If the peripheral device is capable of being both
+//    //	self and bus powered, it should not return a hard coded value for this request.
+//    //	Instead, firmware should check if it is currently self or bus powered, and
+//    //	respond accordingly.  If the hardware has been configured like demonstrated
+//    //	on the PICDEM FS USB Demo Board, an I/O pin can be polled to determine the
+//    //	currently selected power source.  On the PICDEM FS USB Demo Board, "RA2"
+//    //	is used for	this purpose.  If using this feature, make sure "USE_SELF_POWER_SENSE_IO"
+//    //	has been defined in HardwareProfile - (platform).h, and that an appropriate I/O pin
+//    //  has been mapped	to it.
+//#if defined(USE_SELF_POWER_SENSE_IO)
+//    tris_self_power = INPUT_PIN; // See HardwareProfile.h
+//#endif
+//
+//
+//    USBDeviceInit(); //usb_device.c.  Initializes USB module SFRs and firmware
+//    //variables to known states.
+//}//end InitializeSystem
 
-    mPORTFClearBits(BIT_4);
-    mPORTGClearBits(BIT_6 | BIT_8);
-    mPORTFOutputConfig(BIT_4);
-    mPORTGOutputConfig(BIT_6 | BIT_8);
-    mPORTDInputConfig(BIT_5);
-    mPORTDInputConfig(BIT_2);
 
-       CS=1;
-   CS_TRIS=0;
-
-
-    	/* RD6/CN15 is S3 */
-	TRISEbits.TRISE4 = 1;	// make the port as input
-	CNEN4bits.CN62IE = 1;	// enable interrupt
-	CNPU4bits.CN62PUE = 0;	// disable pull-up resistor
-	IFS1bits.CNIF = 0;		// clear IF
-	IPC4bits.CNIP = 3;		// set IP as 7
-	IEC1bits.CNIE = 1;		// enable CN
-
-
-
-   RtccInitClock();       //turn on clock source
-   mRtccSetIntPriority(4); 	//set interrupt priority to 4
-   mRtccSetInt(1);
-   RtccWrOn();            //enable RTCC peripheral
-//***************** Set the TIME & DATA and TIME *****************************************
-   RtccTimeDate.f.hour = 0x10;
-   RtccTimeDate.f.min =  0x39;
-   RtccTimeDate.f.sec =  0;
-   RtccTimeDate.f.mday = 0x08;
-   RtccTimeDate.f.mon =  0x09;
-   RtccTimeDate.f.year = 0x14;
-
-
-
-
-
-
-
-
-
-//Initialize the SPI  memory
-     iPPSInput(IN_FN_PPS_SDI1,IN_PIN_PPS_RP13);      //SDI1=RP13 EN PLACA FINAL
-    iPPSOutput(OUT_PIN_PPS_RP28,OUT_FN_PPS_SDO1);    //SDO1=RP28
-    iPPSOutput(OUT_PIN_PPS_RP6,OUT_FN_PPS_SCK1OUT);    //SCK1=RP6
-
-//		CNPU5bits.CN68PUE = 1;
-
-                //spi acceler
-iPPSInput(IN_FN_PPS_SDI2,IN_PIN_PPS_RP24);    //SDI2=RP24
-    iPPSOutput(OUT_PIN_PPS_RP22,OUT_FN_PPS_SDO2);    //SDO2=RP22
-        iPPSOutput(OUT_PIN_PPS_RP25,OUT_FN_PPS_SCK2OUT);     //SCK2=RP25
-
-
-
-    SPICON1Value = SPI_MODE8_ON |  MASTER_ENABLE_ON | PRI_PRESCAL_1_1| SEC_PRESCAL_4_1 | SLAVE_ENABLE_OFF | SPI_CKE_OFF | CLK_POL_ACTIVE_LOW  ;
-   SPICON2Value = FRAME_ENABLE_OFF;
-   SPISTATValue = SPI_ENABLE ;
-   OpenSPI2(SPICON1Value,SPICON2Value,SPISTATValue );
-
-
-
-
-
-    //AD1CON1 Register
-    // Data Output Format: integer
-    AD1CON1bits.FORM = 0;
-    // Sample Clock Source: Timer 3 starts conversion
-    //to do ver si esto es la forma mas eficiente, conviene controlar esto no cada 1 segundo en el timer 3 sino cada mas tiempo
-    AD1CON1bits.SSRC = 2;
-
-
-    // ADC Sample Control: Sampling begins when samp is set
-    AD1CON1bits.ASAM = 1;
-
-    //AD1CON2 Register
-    // Generate interrupt every 16 sample/conversion
-    // to do ver si conviene cambiar esto para que salte menos frecuentemente
-    AD1CON2bits.SMPI = 0;
-    // Buffer configured as one 16-word buffers
-	AD1CON2bits.BUFM = 0;
-
-    //AD1CON3 Register
-    // ADC Clock is derived from Systems Clock
-	AD1CON3bits.ADRC = 0;
-
-	// ADC Conversion Clock Tad=Tcy*(ADCS+1)=(1/8M)*2*32 = 8us (125Khz)
-	// ADC Conversion Time for 10-bit Tc=12*Tab = 96us
-	AD1CON3bits.ADCS = 31;
-
-
-    //AD1CHS0: A/D Input Select Register
-    // MUXA +ve input selection (AIN5) for CH0
-    // MUXA -ve input selection (Vref-) for CH0
-	AD1CHS = 9;
-
-    //AD1PCFGH/AD1PCFGL: Port Configuration Register
-	AD1PCFG = 0xFFFF;
-    AD1PCFGbits.PCFG9 = 0;		// AN5 as Analog Input
-
-    //AD1CSSH/AD1CSSL: A/D Input Scan Selection Register
-    // Channel Scan is disabled, default state
-	AD1CSSL = 0x0000;
-
-    IFS0bits.AD1IF = 0;			// Clear the A/D interrupt flag bit
-    IEC0bits.AD1IE = 1;			// Enable A/D interrupt
-    AD1CON1bits.ADON = 1;		// Turn on the A/D converter
-
-
-
-
-
-
-
-//	The USB specifications require that USB peripheral devices must never source
-//	current onto the Vbus pin.  Additionally, USB peripherals should not source
-//	current on D+ or D- when the host/hub is not actively powering the Vbus line.
-//	When designing a self powered (as opposed to bus powered) USB peripheral
-//	device, the firmware should make sure not to turn on the USB module and D+
-//	or D- pull up resistor unless Vbus is actively powered.  Therefore, the
-//	firmware needs some means to detect when Vbus is being powered by the host.
-//	A 5V tolerant I/O pin can be connected to Vbus (through a resistor), and
-// 	can be used to detect when Vbus is high (host actively powering), or low
-//	(host is shut down or otherwise not supplying power).  The USB firmware
-// 	can then periodically poll this I/O pin to know when it is okay to turn on
-//	the USB module/D+/D- pull up resistor.  When designing a purely bus powered
-//	peripheral device, it is not possible to source current on D+ or D- when the
-//	host is not actively providing power on Vbus. Therefore, implementing this
-//	bus sense feature is optional.  This firmware can be made to use this bus
-//	sense feature by making sure "USE_USB_BUS_SENSE_IO" has been defined in the
-//	HardwareProfile.h file.
-    #if defined(USE_USB_BUS_SENSE_IO)
-    tris_usb_bus_sense = INPUT_PIN; // See HardwareProfile.h
-    #endif
-
-//	If the host PC sends a GetStatus (device) request, the firmware must respond
-//	and let the host know if the USB peripheral device is currently bus powered
-//	or self powered.  See chapter 9 in the official USB specifications for details
-//	regarding this request.  If the peripheral device is capable of being both
-//	self and bus powered, it should not return a hard coded value for this request.
-//	Instead, firmware should check if it is currently self or bus powered, and
-//	respond accordingly.  If the hardware has been configured like demonstrated
-//	on the PICDEM FS USB Demo Board, an I/O pin can be polled to determine the
-//	currently selected power source.  On the PICDEM FS USB Demo Board, "RA2"
-//	is used for	this purpose.  If using this feature, make sure "USE_SELF_POWER_SENSE_IO"
-//	has been defined in HardwareProfile - (platform).h, and that an appropriate I/O pin
-//  has been mapped	to it.
-    #if defined(USE_SELF_POWER_SENSE_IO)
-    tris_self_power = INPUT_PIN;	// See HardwareProfile.h
-    #endif
-
-    UserInit();
-
-    USBDeviceInit();	//usb_device.c.  Initializes USB module SFRs and firmware
-    					//variables to known states.
-}//end InitializeSystem
-
-/******************************************************************************
- * Function:        void UserInit(void)
- *
- * PreCondition:    None
- *
- * Input:           None
- *
- * Output:          None
- *
- * Side Effects:    None
- *
- * Overview:        This routine should take care of all of the demo code
- *                  initialization that is required.
- *
- * Note:            
- *
- *****************************************************************************/
-void UserInit(void)
-{
-
-    buttonCount = 0;
-;
-}//end UserInit
 
 
 /******************************************************************************
@@ -751,11 +459,10 @@ void UserInit(void)
  *
  *****************************************************************************/
 #if defined(USB_CDC_SET_LINE_CODING_HANDLER)
-void mySetLineCodingHandler(void)
-{
+
+void mySetLineCodingHandler(void) {
     //If the request is not in a valid range
-    if(cdc_notice.GetLineCoding.dwDTERate.Val > 115200)
-    {
+    if (cdc_notice.GetLineCoding.dwDTERate.Val > 115200) {
         //NOTE: There are two ways that an unsupported baud rate could be
         //handled.  The first is just to ignore the request and don't change
         //the values.  That is what is currently implemented in this function.
@@ -771,32 +478,29 @@ void mySetLineCodingHandler(void)
         //to crash.
         //---------------------------------------
         //USBStallEndpoint(0,1);
-    }
-    else
-    {
+    } else {
         //DWORD_VAL dwBaud;
 
         //Update the baudrate info in the CDC driver
         CDCSetBaudRate(cdc_notice.GetLineCoding.dwDTERate.Val);
-        
+
         //Update the baudrate of the UART
-//        #if defined(__18CXX)
-//            dwBaud.Val = (GetSystemClock()/4)/line_coding.dwDTERate.Val-1;
-//            SPBRG = dwBaud.v[0];
-//            SPBRGH = dwBaud.v[1];
-//        #elif defined(__C30__) || defined __XC16__
-//            dwBaud.Val = (((GetPeripheralClock()/2)+(BRG_DIV2/2*line_coding.dwDTERate.Val))/BRG_DIV2/line_coding.dwDTERate.Val-1);
-//            U2BRG = dwBaud.Val;
-//        #elif defined(__C32__)
-//            U2BRG = ((GetPeripheralClock()+(BRG_DIV2/2*line_coding.dwDTERate.Val))/BRG_DIV2/line_coding.dwDTERate.Val-1);
-//            //U2MODE = 0;
-//            U2MODEbits.BRGH = BRGH2;
-//            //U2STA = 0;
-//        #endif
+        //        #if defined(__18CXX)
+        //            dwBaud.Val = (GetSystemClock()/4)/line_coding.dwDTERate.Val-1;
+        //            SPBRG = dwBaud.v[0];
+        //            SPBRGH = dwBaud.v[1];
+        //        #elif defined(__C30__) || defined __XC16__
+        //            dwBaud.Val = (((GetPeripheralClock()/2)+(BRG_DIV2/2*line_coding.dwDTERate.Val))/BRG_DIV2/line_coding.dwDTERate.Val-1);
+        //            U2BRG = dwBaud.Val;
+        //        #elif defined(__C32__)
+        //            U2BRG = ((GetPeripheralClock()+(BRG_DIV2/2*line_coding.dwDTERate.Val))/BRG_DIV2/line_coding.dwDTERate.Val-1);
+        //            //U2MODE = 0;
+        //            U2MODEbits.BRGH = BRGH2;
+        //            //U2STA = 0;
+        //        #endif
     }
 }
 #endif
-
 
 /********************************************************************
  * Function:        void ProcessIO(void)
@@ -815,76 +519,71 @@ void mySetLineCodingHandler(void)
  *
  * Note:            None
  *******************************************************************/
-void ProcessIO(void)
-{
+void ProcessIO(void) {
     char USB_In_Buffer[64];
-char USB_Out_Buffer[64];
+    char USB_Out_Buffer[64];
 
 
 
     // User Application USB tasks
-    if((USBDeviceState < CONFIGURED_STATE)||(USBSuspendControl==1)) return;
+    if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1)) return;
 
 
-    BYTE numBytesRead=0;
+    BYTE numBytesRead = 0;
 
-    if((USBDeviceState == CONFIGURED_STATE)){
-        if(USBUSARTIsTxTrfReady())
-    {
-
+    if ((USBDeviceState == CONFIGURED_STATE)) {
+        if (USBUSARTIsTxTrfReady()) {
 
 
-		numBytesRead = getsUSBUSART(USB_Out_Buffer,64);
-		if(numBytesRead != 0)
-		{
-			BYTE i,jk=0;
 
-			for(i=0;i<numBytesRead;i++)
-			{
-				switch(USB_Out_Buffer[i])
-				{
-					case 0x0A:
-					case 0x0D:
-						USB_In_Buffer[jk] = USB_Out_Buffer[i];
-						break;
-					default:
-                                                    USB_In_Buffer[jk] = USB_Out_Buffer[i];
-                                                    datatime[jk]=  USB_Out_Buffer[i];
-                                                    jk++;
-                                                    //todo guardar datos en rtcc
-						break;
-				}
+            numBytesRead = getsUSBUSART(USB_Out_Buffer, 64);
+            if (numBytesRead != 0) {
+                BYTE i, jk = 0;
 
-			}
+                for (i = 0; i < numBytesRead; i++) {
+                    switch (USB_Out_Buffer[i]) {
+                        case 0x0A:
+                        case 0x0D:
+                            USB_In_Buffer[jk] = USB_Out_Buffer[i];
+                            break;
+                        default:
+                            USB_In_Buffer[jk] = USB_Out_Buffer[i];
+                            datatime[jk] = USB_Out_Buffer[i];
+                            jk++;
+                            //todo guardar datos en rtcc
+                            break;
+                    }
 
-			putUSBUSART(USB_Out_Buffer,numBytesRead);
-                        jk=0;
-                        if(datatime[0] != NULL) if(datatime[1] != NULL)
-                        if(datatime[2] != NULL) if(datatime[3] != NULL)
-                        if(datatime[4] != NULL) if(datatime[5] != NULL)
-                        if(datatime[6] != NULL) if(datatime[7] != NULL)
-                        if(datatime[8] != NULL) if(datatime[9] != NULL)
-                        if(datatime[10] != NULL)if(datatime[11] != NULL)
-                        if(datatime[12] != NULL)if(datatime[13] != NULL)
-                        if(datatime[14] != NULL)if(datatime[15] != NULL)
-                        if(datatime[16] != NULL){
+                }
 
-   RtccTimeDate.f.year =(datatime[0]-0x30)*16 + (datatime[1]-0x30);
-   RtccTimeDate.f.hour = (datatime[9]-0x30)*16 + (datatime[10]-0x30);
-   RtccTimeDate.f.min =  (datatime[12]-0x30)*16 + (datatime[13]-0x30);
-   RtccTimeDate.f.sec =  (datatime[15]-0x30)*16 + (datatime[16]-0x30);
-   RtccTimeDate.f.mday = (datatime[6]-0x30)*16 + (datatime[7]-0x30);
-   RtccTimeDate.f.mon =  (datatime[3]-0x30)*16 + (datatime[4]-0x30);
-   RtccWriteTimeDate(&RtccTimeDate,0);
-                        }
+                putUSBUSART(USB_Out_Buffer, numBytesRead);
+                jk = 0;
+                if (datatime[0] != NULL) if (datatime[1] != NULL)
+                        if (datatime[2] != NULL) if (datatime[3] != NULL)
+                                if (datatime[4] != NULL) if (datatime[5] != NULL)
+                                        if (datatime[6] != NULL) if (datatime[7] != NULL)
+                                                if (datatime[8] != NULL) if (datatime[9] != NULL)
+                                                        if (datatime[10] != NULL)if (datatime[11] != NULL)
+                                                                if (datatime[12] != NULL)if (datatime[13] != NULL)
+                                                                        if (datatime[14] != NULL)if (datatime[15] != NULL)
+                                                                                if (datatime[16] != NULL) {
 
-		}
+                                                                                    RtccTimeDate.f.year = (datatime[0] - 0x30)*16 + (datatime[1] - 0x30);
+                                                                                    RtccTimeDate.f.hour = (datatime[9] - 0x30)*16 + (datatime[10] - 0x30);
+                                                                                    RtccTimeDate.f.min = (datatime[12] - 0x30)*16 + (datatime[13] - 0x30);
+                                                                                    RtccTimeDate.f.sec = (datatime[15] - 0x30)*16 + (datatime[16] - 0x30);
+                                                                                    RtccTimeDate.f.mday = (datatime[6] - 0x30)*16 + (datatime[7] - 0x30);
+                                                                                    RtccTimeDate.f.mon = (datatime[3] - 0x30)*16 + (datatime[4] - 0x30);
+                                                                                    RtccWriteTimeDate(&RtccTimeDate, 0);
+                                                                                }
 
-	}
+            }
+
+        }
 
 
-    CDCTxService();
-    MSDTasks();
+        CDCTxService();
+        MSDTasks();
     }
 }//end ProcessIO
 
@@ -929,37 +628,36 @@ char USB_Out_Buffer[64];
  *
  * Note:            None
  *****************************************************************************/
-void USBCBSuspend(void)
-{
-	//Example power saving code.  Insert appropriate code here for the desired
-	//application behavior.  If the microcontroller will be put to sleep, a
-	//process similar to that shown below may be used:
-	
-	//ConfigureIOPinsForLowPower();
-	//SaveStateOfAllInterruptEnableBits();
-	//DisableAllInterruptEnableBits();
-	//EnableOnlyTheInterruptsWhichWillBeUsedToWakeTheMicro();	//should enable at least USBActivityIF as a wake source
-	//Sleep();
-	//RestoreStateOfAllPreviouslySavedInterruptEnableBits();	//Preferrably, this should be done in the USBCBWakeFromSuspend() function instead.
-	//RestoreIOPinsToNormal();									//Preferrably, this should be done in the USBCBWakeFromSuspend() function instead.
+void USBCBSuspend(void) {
+    //Example power saving code.  Insert appropriate code here for the desired
+    //application behavior.  If the microcontroller will be put to sleep, a
+    //process similar to that shown below may be used:
 
-	//IMPORTANT NOTE: Do not clear the USBActivityIF (ACTVIF) bit here.  This bit is 
-	//cleared inside the usb_device.c file.  Clearing USBActivityIF here will cause 
-	//things to not work as intended.	
-	
+    //ConfigureIOPinsForLowPower();
+    //SaveStateOfAllInterruptEnableBits();
+    //DisableAllInterruptEnableBits();
+    //EnableOnlyTheInterruptsWhichWillBeUsedToWakeTheMicro();	//should enable at least USBActivityIF as a wake source
+    //Sleep();
+    //RestoreStateOfAllPreviouslySavedInterruptEnableBits();	//Preferrably, this should be done in the USBCBWakeFromSuspend() function instead.
+    //RestoreIOPinsToNormal();									//Preferrably, this should be done in the USBCBWakeFromSuspend() function instead.
 
-    #if defined(__C30__) || defined __XC16__
-    #if 0
-        U1EIR = 0xFFFF;
-        U1IR = 0xFFFF;
-        U1OTGIR = 0xFFFF;
-        IFS5bits.USB1IF = 0;
-        IEC5bits.USB1IE = 1;
-        U1OTGIEbits.ACTVIE = 1;
-        U1OTGIRbits.ACTVIF = 1;
-        Sleep();
-    #endif
-    #endif
+    //IMPORTANT NOTE: Do not clear the USBActivityIF (ACTVIF) bit here.  This bit is
+    //cleared inside the usb_device.c file.  Clearing USBActivityIF here will cause
+    //things to not work as intended.
+
+
+#if defined(__C30__) || defined __XC16__
+#if 0
+    U1EIR = 0xFFFF;
+    U1IR = 0xFFFF;
+    U1OTGIR = 0xFFFF;
+    IFS5bits.USB1IF = 0;
+    IEC5bits.USB1IE = 1;
+    U1OTGIEbits.ACTVIE = 1;
+    U1OTGIRbits.ACTVIF = 1;
+    Sleep();
+#endif
+#endif
 }
 
 
@@ -981,20 +679,19 @@ void USBCBSuspend(void)
  * Note:            None
  *****************************************************************************/
 #if 0
-void __attribute__ ((interrupt)) _USB1Interrupt(void)
-{
-    #if !defined(self_powered)
-        if(U1OTGIRbits.ACTVIF)
-        {
-            IEC5bits.USB1IE = 0;
-            U1OTGIEbits.ACTVIE = 0;
-            IFS5bits.USB1IF = 0;
-        
-            //USBClearInterruptFlag(USBActivityIFReg,USBActivityIFBitNum);
-            USBClearInterruptFlag(USBIdleIFReg,USBIdleIFBitNum);
-            //USBSuspendControl = 0;
-        }
-    #endif
+
+void __attribute__((interrupt)) _USB1Interrupt(void) {
+#if !defined(self_powered)
+    if (U1OTGIRbits.ACTVIF) {
+        IEC5bits.USB1IE = 0;
+        U1OTGIEbits.ACTVIE = 0;
+        IFS5bits.USB1IF = 0;
+
+        //USBClearInterruptFlag(USBActivityIFReg,USBActivityIFBitNum);
+        USBClearInterruptFlag(USBIdleIFReg, USBIdleIFBitNum);
+        //USBSuspendControl = 0;
+    }
+#endif
 }
 #endif
 
@@ -1019,17 +716,16 @@ void __attribute__ ((interrupt)) _USB1Interrupt(void)
  *
  * Note:            None
  *****************************************************************************/
-void USBCBWakeFromSuspend(void)
-{
-	// If clock switching or other power savings measures were taken when
-	// executing the USBCBSuspend() function, now would be a good time to
-	// switch back to normal full power run mode conditions.  The host allows
-	// 10+ milliseconds of wakeup time, after which the device must be 
-	// fully back to normal, and capable of receiving and processing USB
-	// packets.  In order to do this, the USB module must receive proper
-	// clocking (IE: 48MHz clock must be available to SIE for full speed USB
-	// operation).  
-	// Make sure the selected oscillator settings are consistent with USB 
+void USBCBWakeFromSuspend(void) {
+    // If clock switching or other power savings measures were taken when
+    // executing the USBCBSuspend() function, now would be a good time to
+    // switch back to normal full power run mode conditions.  The host allows
+    // 10+ milliseconds of wakeup time, after which the device must be
+    // fully back to normal, and capable of receiving and processing USB
+    // packets.  In order to do this, the USB module must receive proper
+    // clocking (IE: 48MHz clock must be available to SIE for full speed USB
+    // operation).
+    // Make sure the selected oscillator settings are consistent with USB
     // operation before returning from this function.
 }
 
@@ -1051,31 +747,23 @@ void USBCBWakeFromSuspend(void)
  *
  * Note:            None
  *******************************************************************/
-void USBCB_SOF_Handler(void)
-{
+void USBCB_SOF_Handler(void) {
     // No need to clear UIRbits.SOFIF to 0 here.
     // Callback caller is already doing that.
 
     //This is reverse logic since the pushbutton is active low
-    if(buttonPressed == sw2)
-    {
-        if(buttonCount != 0)
-        {
+    if (buttonPressed == sw2) {
+        if (buttonCount != 0) {
             buttonCount--;
-        }
-        else
-        {
+        } else {
             //This is reverse logic since the pushbutton is active low
             buttonPressed = !sw2;
 
             //Wait 100ms before the next press can be generated
             buttonCount = 100;
         }
-    }
-    else
-    {
-        if(buttonCount != 0)
-        {
+    } else {
+        if (buttonCount != 0) {
             buttonCount--;
         }
     }
@@ -1098,28 +786,26 @@ void USBCB_SOF_Handler(void)
  *
  * Note:            None
  *******************************************************************/
-void USBCBErrorHandler(void)
-{
+void USBCBErrorHandler(void) {
     // No need to clear UEIR to 0 here.
     // Callback caller is already doing that.
 
-	// Typically, user firmware does not need to do anything special
-	// if a USB error occurs.  For example, if the host sends an OUT
-	// packet to your device, but the packet gets corrupted (ex:
-	// because of a bad connection, or the user unplugs the
-	// USB cable during the transmission) this will typically set
-	// one or more USB error interrupt flags.  Nothing specific
-	// needs to be done however, since the SIE will automatically
-	// send a "NAK" packet to the host.  In response to this, the
-	// host will normally retry to send the packet again, and no
-	// data loss occurs.  The system will typically recover
-	// automatically, without the need for application firmware
-	// intervention.
-	
-	// Nevertheless, this callback function is provided, such as
-	// for debugging purposes.
-}
+    // Typically, user firmware does not need to do anything special
+    // if a USB error occurs.  For example, if the host sends an OUT
+    // packet to your device, but the packet gets corrupted (ex:
+    // because of a bad connection, or the user unplugs the
+    // USB cable during the transmission) this will typically set
+    // one or more USB error interrupt flags.  Nothing specific
+    // needs to be done however, since the SIE will automatically
+    // send a "NAK" packet to the host.  In response to this, the
+    // host will normally retry to send the packet again, and no
+    // data loss occurs.  The system will typically recover
+    // automatically, without the need for application firmware
+    // intervention.
 
+    // Nevertheless, this callback function is provided, such as
+    // for debugging purposes.
+}
 
 /*******************************************************************
  * Function:        void USBCBCheckOtherReq(void)
@@ -1149,12 +835,10 @@ void USBCBErrorHandler(void)
  *
  * Note:            None
  *******************************************************************/
-void USBCBCheckOtherReq(void)
-{
+void USBCBCheckOtherReq(void) {
     USBCheckMSDRequest();
     USBCheckCDCRequest();
 }//end
-
 
 /*******************************************************************
  * Function:        void USBCBStdSetDscHandler(void)
@@ -1175,11 +859,9 @@ void USBCBCheckOtherReq(void)
  *
  * Note:            None
  *******************************************************************/
-void USBCBStdSetDscHandler(void)
-{
+void USBCBStdSetDscHandler(void) {
     // Must claim session ownership if supporting this request
 }//end
-
 
 /*******************************************************************
  * Function:        void USBCBInitEP(void)
@@ -1201,14 +883,13 @@ void USBCBStdSetDscHandler(void)
  *
  * Note:            None
  *******************************************************************/
-void USBCBInitEP(void)
-{
-    #if (MSD_DATA_IN_EP == MSD_DATA_OUT_EP)
-        USBEnableEndpoint(MSD_DATA_IN_EP,USB_IN_ENABLED|USB_OUT_ENABLED|USB_HANDSHAKE_ENABLED|USB_DISALLOW_SETUP);
-    #else
-        USBEnableEndpoint(MSD_DATA_IN_EP,USB_IN_ENABLED|USB_HANDSHAKE_ENABLED|USB_DISALLOW_SETUP);
-        USBEnableEndpoint(MSD_DATA_OUT_EP,USB_OUT_ENABLED|USB_HANDSHAKE_ENABLED|USB_DISALLOW_SETUP);
-    #endif
+void USBCBInitEP(void) {
+#if (MSD_DATA_IN_EP == MSD_DATA_OUT_EP)
+    USBEnableEndpoint(MSD_DATA_IN_EP, USB_IN_ENABLED | USB_OUT_ENABLED | USB_HANDSHAKE_ENABLED | USB_DISALLOW_SETUP);
+#else
+    USBEnableEndpoint(MSD_DATA_IN_EP, USB_IN_ENABLED | USB_HANDSHAKE_ENABLED | USB_DISALLOW_SETUP);
+    USBEnableEndpoint(MSD_DATA_OUT_EP, USB_OUT_ENABLED | USB_HANDSHAKE_ENABLED | USB_DISALLOW_SETUP);
+#endif
 
     USBMSDInit();
     CDCInitEP();
@@ -1301,10 +982,9 @@ void USBCBInitEP(void)
  *                    Make sure to verify using the MPLAB SIM's Stopwatch
  *                    and verify the actual signal on an oscilloscope.
  *******************************************************************/
-void USBCBSendResume(void)
-{
+void USBCBSendResume(void) {
     static WORD delay_count;
-    
+
     //First verify that the host has armed us to perform remote wakeup.
     //It does this by sending a SET_FEATURE request to enable remote wakeup,
     //usually just before the host goes to standby mode (note: it will only
@@ -1314,19 +994,17 @@ void USBCBSendResume(void)
     //properties page for the USB device, power management tab, the 
     //"Allow this device to bring the computer out of standby." checkbox 
     //should be checked).
-    if(USBGetRemoteWakeupStatus() == TRUE) 
-    {
+    if (USBGetRemoteWakeupStatus() == TRUE) {
         //Verify that the USB bus is in fact suspended, before we send
         //remote wakeup signalling.
-        if(USBIsBusSuspended() == TRUE)
-        {
+        if (USBIsBusSuspended() == TRUE) {
             USBMaskInterrupts();
-            
+
             //Clock switch to settings consistent with normal USB operation.
             USBCBWakeFromSuspend();
-            USBSuspendControl = 0; 
-            USBBusIsSuspended = FALSE;  //So we don't execute this code again, 
-                                        //until a new suspend condition is detected.
+            USBSuspendControl = 0;
+            USBBusIsSuspended = FALSE; //So we don't execute this code again,
+            //until a new suspend condition is detected.
 
             //Section 7.1.7.7 of the USB 2.0 specifications indicates a USB
             //device must continuously see 5ms+ of idle on the bus, before it sends
@@ -1334,20 +1012,18 @@ void USBCBSendResume(void)
             //gets met, is to add a 2ms+ blocking delay here (2ms plus at 
             //least 3ms from bus idle to USBIsBusSuspended() == TRUE, yeilds
             //5ms+ total delay since start of idle).
-            delay_count = 3600U;        
-            do
-            {
+            delay_count = 3600U;
+            do {
                 delay_count--;
-            }while(delay_count);
-            
+            } while (delay_count);
+
             //Now drive the resume K-state signalling onto the USB bus.
-            USBResumeControl = 1;       // Start RESUME signaling
-            delay_count = 1800U;        // Set RESUME line for 1-13 ms
-            do
-            {
+            USBResumeControl = 1; // Start RESUME signaling
+            delay_count = 1800U; // Set RESUME line for 1-13 ms
+            do {
                 delay_count--;
-            }while(delay_count);
-            USBResumeControl = 0;       //Finished driving resume signalling
+            } while (delay_count);
+            USBResumeControl = 0; //Finished driving resume signalling
 
             USBUnmaskInterrupts();
         }
@@ -1375,10 +1051,8 @@ void USBCBSendResume(void)
  *
  * Note:            None
  *******************************************************************/
-BOOL USER_USB_CALLBACK_EVENT_HANDLER(USB_EVENT event, void *pdata, WORD size)
-{
-    switch( (INT)event )
-    {
+BOOL USER_USB_CALLBACK_EVENT_HANDLER(USB_EVENT event, void *pdata, WORD size) {
+    switch ((INT) event) {
         case EVENT_TRANSFER:
             //Add application specific callback task or callback function here if desired.
             break;
@@ -1391,7 +1065,7 @@ BOOL USER_USB_CALLBACK_EVENT_HANDLER(USB_EVENT event, void *pdata, WORD size)
         case EVENT_RESUME:
             USBCBWakeFromSuspend();
             break;
-        case EVENT_CONFIGURED: 
+        case EVENT_CONFIGURED:
             USBCBInitEP();
             break;
         case EVENT_SET_DESCRIPTOR:
@@ -1420,102 +1094,92 @@ BOOL USER_USB_CALLBACK_EVENT_HANDLER(USB_EVENT event, void *pdata, WORD size)
             //then we are required to have a persistent STALL, where it cannot 
             //be cleared (until MSD reset recovery takes place).  See MSD BOT 
             //specs v1.0, section 6.6.1.
-            if(MSDWasLastCBWValid() == FALSE)
-            {
+            if (MSDWasLastCBWValid() == FALSE) {
                 //Need to re-stall the endpoints, for persistent STALL behavior.
-    			USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);
-      			USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);                 
-            }
-            else
-            {   
+                USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);
+                USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
+            } else {
                 //Check if the host cleared halt on the bulk out endpoint.  In this
                 //case, we should re-arm the endpoint, so we can receive the next CBW.
-                if((USB_HANDLE)pdata == USBGetNextHandle(MSD_DATA_OUT_EP, OUT_FROM_HOST))
-                {
-                    USBMSDOutHandle = USBRxOnePacket(MSD_DATA_OUT_EP, (BYTE*)&msd_cbw, MSD_OUT_EP_SIZE);
-                }    
-            }    
+                if ((USB_HANDLE) pdata == USBGetNextHandle(MSD_DATA_OUT_EP, OUT_FROM_HOST)) {
+                    USBMSDOutHandle = USBRxOnePacket(MSD_DATA_OUT_EP, (BYTE*) & msd_cbw, MSD_OUT_EP_SIZE);
+                }
+            }
             break;
         default:
             break;
-    }      
-    return TRUE; 
+    }
+    return TRUE;
 }
 
-           
 /** EOF main.c ***************************************************************/
 
 
 
-void toggle_led1(void){
-         mPORTGToggleBits(BIT_6);
 
-}
 
-BYTE inc_BCD(BYTE number){
-     variable_aux= number & 0x000f;
-    if(variable_aux==9)
-        number+=7;
-    else
-        number+=1;
-     return number;
-}
 
-void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void)
-{
 
-	IFS1bits.CNIF = 0;		// clear IF
-	sw_power = PORTEbits.RE4;		// read for next interrupt
+void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
+
+    IFS1bits.CNIF = 0; // clear IF
+    sw_power = PORTEbits.RE4; // read for next interrupt
 
 }
 
 //************************* Interrupt service routine for RTCC *****************************
-void __attribute__ ((interrupt,no_auto_psv)) _RTCCInterrupt (void)
-{
-  mRtcc_Clear_Intr_Status_Bit;						//clear the interrupt status
+
+void __attribute__((interrupt, no_auto_psv)) _RTCCInterrupt(void) {
+    mRtcc_Clear_Intr_Status_Bit; //clear the interrupt status
 }
 
-void __attribute__ ((interrupt,no_auto_psv)) _T3Interrupt (void)
-{
-	T3_Clear_Intr_Status_Bit;
-        //clear the interrupt flag
+void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
+    T3_Clear_Intr_Status_Bit;
+    //clear the interrupt flag
 
-//                        toggle_led1();
-//        segundos=RtccTimeDateVal.f.sec;
-//        minutos=RtccTimeDateVal.f.min;
-//        RtccReadTimeDate(&RtccTimeDateVal);
-//        if(RtccTimeDateVal.f.sec != segundos){
-//                    mPORTFToggleBits(BIT_4);
-//                       }
+    //                        toggle_led1();
+    //        segundos=RtccTimeDateVal.f.sec;
+    //        minutos=RtccTimeDateVal.f.min;
+    //        RtccReadTimeDate(&RtccTimeDateVal);
+    //        if(RtccTimeDateVal.f.sec != segundos){
+    //                    mPORTFToggleBits(BIT_4);
+    //                       }
 }
-void __attribute__((interrupt, no_auto_psv)) _ADC1Interrupt(void)
-{
 
-    IFS0bits.AD1IF = 0;		//Clear the ADC1 Interrupt Flag
-	adcPtr = ADC1BUF0;
-              if(adcPtr<=546){          //en este valor tenemos aproximadamente 3.5V en la bateria
-  //            prender led rojo
-  //                    mPORTGToggleBits(BIT_6);
-                    if(logFile != NULL){                                                         //y el file esta abierto, lo cierra
-                    FSfclose(logFile);
-                    logFile = NULL;
-                    }
-                    standby_mode();
-                    measurement=0;
-                    //to do apagar modulos y led
-                    //con watch dog podemos apagar y prender un led
-                    /* tenemos que definir adcPtr como volatil
-                     prender led
-                     * delay
-                     * apagar led
-                     *
-                     * EnableWDT(WDT_ENABLE);
-                     * sleep
-                     * Disable wdt
-                     * }
-                     */
-                    Sleep();
-      }
+void __attribute__((interrupt, no_auto_psv)) _ADC1Interrupt(void) {
+
+    IFS0bits.AD1IF = 0; //Clear the ADC1 Interrupt Flag
+    adcPtr = ADC1BUF0;
+//    if (adcPtr <= 546) { //en este valor tenemos aproximadamente 3.5V en la bateria
+//        //            prender led rojo
+//        //                    mPORTGToggleBits(BIT_6);
+//        if (logFile != NULL) { //y el file esta abierto, lo cierra
+//            FSfclose(logFile);
+//            logFile = NULL;
+//        }
+//        standby_mode();
+//        measurement = 0;
+//        //to do apagar modulos y led
+//        //con watch dog podemos apagar y prender un led
+//        /* tenemos que definir adcPtr como volatil
+//         prender led
+//         * delay
+//         * apagar led
+//         *
+//         * EnableWDT(WDT_ENABLE);
+//         * sleep
+//         * Disable wdt
+//         * }
+//         */
+//        mPORTGClearBits(BIT_6);
+//        //                    to do apagar todos los modulos
+//        CloseTimer3();
+//        CloseSPI2();
+//        CloseSPI1();
+//        AD1CON1bits.ADON = 0;
+//
+//        Sleep();
+//    }
 
 
 

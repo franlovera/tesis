@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../../../../Microchip/USB/usb_device.c "../../../../Microchip/USB/CDC Device Driver/usb_function_cdc.c" "../../../../Microchip/USB/MSD Device Driver/usb_function_msd.c" ../../../../Microchip/USB/usb_hal_pic24.c ../usb_descriptors.c ../main.c "../../../../Microchip/MDD File System/SD-SPI.c" "../../../../Microchip/MDD File System/FSIO.c"
+SOURCEFILES_QUOTED_IF_SPACED=../../../../Microchip/USB/usb_device.c "../../../../Microchip/USB/CDC Device Driver/usb_function_cdc.c" "../../../../Microchip/USB/MSD Device Driver/usb_function_msd.c" ../../../../Microchip/USB/usb_hal_pic24.c ../usb_descriptors.c ../main.c "../../../../Microchip/MDD File System/SD-SPI.c" "../../../../Microchip/MDD File System/FSIO.c" ../accelerometro.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/926206843/usb_device.o ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o ${OBJECTDIR}/_ext/123996954/usb_function_msd.o ${OBJECTDIR}/_ext/926206843/usb_hal_pic24.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/491339551/SD-SPI.o ${OBJECTDIR}/_ext/491339551/FSIO.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/926206843/usb_device.o.d ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o.d ${OBJECTDIR}/_ext/123996954/usb_function_msd.o.d ${OBJECTDIR}/_ext/926206843/usb_hal_pic24.o.d ${OBJECTDIR}/_ext/1472/usb_descriptors.o.d ${OBJECTDIR}/_ext/1472/main.o.d ${OBJECTDIR}/_ext/491339551/SD-SPI.o.d ${OBJECTDIR}/_ext/491339551/FSIO.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/926206843/usb_device.o ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o ${OBJECTDIR}/_ext/123996954/usb_function_msd.o ${OBJECTDIR}/_ext/926206843/usb_hal_pic24.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/491339551/SD-SPI.o ${OBJECTDIR}/_ext/491339551/FSIO.o ${OBJECTDIR}/_ext/1472/accelerometro.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/926206843/usb_device.o.d ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o.d ${OBJECTDIR}/_ext/123996954/usb_function_msd.o.d ${OBJECTDIR}/_ext/926206843/usb_hal_pic24.o.d ${OBJECTDIR}/_ext/1472/usb_descriptors.o.d ${OBJECTDIR}/_ext/1472/main.o.d ${OBJECTDIR}/_ext/491339551/SD-SPI.o.d ${OBJECTDIR}/_ext/491339551/FSIO.o.d ${OBJECTDIR}/_ext/1472/accelerometro.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/926206843/usb_device.o ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o ${OBJECTDIR}/_ext/123996954/usb_function_msd.o ${OBJECTDIR}/_ext/926206843/usb_hal_pic24.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/491339551/SD-SPI.o ${OBJECTDIR}/_ext/491339551/FSIO.o
+OBJECTFILES=${OBJECTDIR}/_ext/926206843/usb_device.o ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o ${OBJECTDIR}/_ext/123996954/usb_function_msd.o ${OBJECTDIR}/_ext/926206843/usb_hal_pic24.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/491339551/SD-SPI.o ${OBJECTDIR}/_ext/491339551/FSIO.o ${OBJECTDIR}/_ext/1472/accelerometro.o
 
 # Source Files
-SOURCEFILES=../../../../Microchip/USB/usb_device.c ../../../../Microchip/USB/CDC Device Driver/usb_function_cdc.c ../../../../Microchip/USB/MSD Device Driver/usb_function_msd.c ../../../../Microchip/USB/usb_hal_pic24.c ../usb_descriptors.c ../main.c ../../../../Microchip/MDD File System/SD-SPI.c ../../../../Microchip/MDD File System/FSIO.c
+SOURCEFILES=../../../../Microchip/USB/usb_device.c ../../../../Microchip/USB/CDC Device Driver/usb_function_cdc.c ../../../../Microchip/USB/MSD Device Driver/usb_function_msd.c ../../../../Microchip/USB/usb_hal_pic24.c ../usb_descriptors.c ../main.c ../../../../Microchip/MDD File System/SD-SPI.c ../../../../Microchip/MDD File System/FSIO.c ../accelerometro.c
 
 
 CFLAGS=
@@ -135,6 +135,13 @@ ${OBJECTDIR}/_ext/491339551/FSIO.o: ../../../../Microchip/MDD\ File\ System/FSIO
 	${MP_CC} $(MP_EXTRA_CC_PRE)  "../../../../Microchip/MDD File System/FSIO.c"  -o ${OBJECTDIR}/_ext/491339551/FSIO.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/491339551/FSIO.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -fno-short-double -O0 -I".." -I"../../../../Microchip/Include" -msmart-io=1 -msfr-warn=off -fno-ivopts
 	@${FIXDEPS} "${OBJECTDIR}/_ext/491339551/FSIO.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/_ext/1472/accelerometro.o: ../accelerometro.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1472 
+	@${RM} ${OBJECTDIR}/_ext/1472/accelerometro.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1472/accelerometro.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../accelerometro.c  -o ${OBJECTDIR}/_ext/1472/accelerometro.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/accelerometro.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -fno-short-double -O0 -I".." -I"../../../../Microchip/Include" -msmart-io=1 -msfr-warn=off -fno-ivopts
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/accelerometro.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/_ext/926206843/usb_device.o: ../../../../Microchip/USB/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/926206843 
@@ -191,6 +198,13 @@ ${OBJECTDIR}/_ext/491339551/FSIO.o: ../../../../Microchip/MDD\ File\ System/FSIO
 	@${RM} ${OBJECTDIR}/_ext/491339551/FSIO.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  "../../../../Microchip/MDD File System/FSIO.c"  -o ${OBJECTDIR}/_ext/491339551/FSIO.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/491339551/FSIO.o.d"        -g -omf=elf -fno-short-double -O0 -I".." -I"../../../../Microchip/Include" -msmart-io=1 -msfr-warn=off -fno-ivopts
 	@${FIXDEPS} "${OBJECTDIR}/_ext/491339551/FSIO.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1472/accelerometro.o: ../accelerometro.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1472 
+	@${RM} ${OBJECTDIR}/_ext/1472/accelerometro.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1472/accelerometro.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../accelerometro.c  -o ${OBJECTDIR}/_ext/1472/accelerometro.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/accelerometro.o.d"        -g -omf=elf -fno-short-double -O0 -I".." -I"../../../../Microchip/Include" -msmart-io=1 -msfr-warn=off -fno-ivopts
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/accelerometro.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 

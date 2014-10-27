@@ -82,7 +82,7 @@
 
 // Comment this line out if you don't intend to format your card
 // Writes must be enabled to use the format function
-//#define ALLOW_FORMATS
+#define ALLOW_FORMATS
 /************************************************************************/
 
 // Uncomment this definition if you're using directories

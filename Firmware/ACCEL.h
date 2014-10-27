@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   ACCEL.h
  * Author: Francisco
  *
@@ -6,6 +6,8 @@
  */
 #ifndef __ACCEL_H__
 #define __ACCEL_H__
+#include <stdint.h>
+#include "rtcc.h"
 
 #define	ACCEL_H
 
@@ -30,7 +32,7 @@
 #define ACCEL_MASK         0x01ff
 #define CS      LATDbits.LATD0
 #define CS_TRIS   TRISDbits.TRISD0
-          
+
 #define BIT_22                       (1 << 22)
 #define BIT_21                       (1 << 21)
 #define BIT_20                       (1 << 20)
@@ -57,20 +59,21 @@
 
 
 int8_t read_accel_register(int8_t reg);
-void read_accel(void) ;
-void setup_accelerometer(void);
-void standby_mode(void);
-void measurement_mode(void);
+uint16_t read_accel( char *p_string, unsigned char  *p_hora, uint16_t msec);
+int8_t setup_accelerometer(void);
+int8_t standby_mode(void);
+int8_t measurement_mode(void);
 int read_power_mode(void);
 void Rtccinit(void);
 void  Portsinit(void);
 void PinMapping(void);
 void EnableSPIacel(void);
-BYTE inc_BCD(BYTE);
+uint8_t inc_BCD(uint8_t);
 void initAdc1(void);
 void create_initial_cond(void);
 void toggle_led1(void);
 void read_initial_cond(void);
-
+void InitializeSystem(unsigned char  *p_hora);
+void InitRTCC(unsigned char* rtcctime);
 
 #endif
