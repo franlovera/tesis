@@ -153,16 +153,16 @@ int main(void)
     InitRTCC(&RtccTimeDateVal);                                                     //Inicializa el RTCC
     measurement = setup_accelerometer();                                            //configuramos el accel
     devid = read_accel_register(0x00);                                              //se lee el devid para ver si esta bien configurado
-    sw_power = PORTEbits.RE4;
+    sw_power = PORTEbits.RE4;                                                       //se lee el estado inicial del switch
     //         while (!FSInit());
-    measurement = 0;
+    measurement = 0;                                                                //para asegurarnos que al iniciar entre a inicializar todo los modulos
 
 
     while (1) {
 #if defined(USB_INTERRUPT)                                                          //actualiza el estado del USB
         if (USB_BUS_SENSE && (USBGetDeviceState() == DETACHED_STATE)) {
             USBDeviceAttach();
-        } else // ADDED BY ANGUEL
+        } else 
             if ((USB_BUS_SENSE != 1) && (USBGetDeviceState() != DETACHED_STATE)) {
             USBDeviceDetach();
         }
@@ -173,29 +173,26 @@ int main(void)
         if ((USBDeviceState == DETACHED_STATE)) {
             if (sw_power == 1) {
                 if (measurement == 0) {                                             //si no esta en measurement mode, lo pone en este modo
-                    IEC0bits.AD1IE = 0;                                             // disable A/D interrupt
+                    disable_adc_int();                                              // disable A/D interrupt
                     InitializeSystem((unsigned char*) &RtccTimeDateVal);            //Inicializa el sistema ya que estaba en sleep antes
-                    ConfigIntTimer3(T3_INT_OFF | T3_INT_PRIOR_5);                   //se Apagan la interrupts del timer3
-
+                    disable_t3_int();                                               //se Apagan la interrupts del timer3
                     while (!FSInit());                                              //esperamos hasta inicializar la tarjeta SD
-                   measurement= setup_accelerometer();                              //configuramos el accel
-                    while (mRtccIs2ndHalfSecond());
-                    while (!mRtccIs2ndHalfSecond());                                //nos garantiza que el RTCC y el timer3 usado para mS esten sincronizados
-                    OpenTimer3(T3_ON | T3_PS_1_256, 31250);                         //configuramos el timer para que tenga una frecuencia de un hertz
-                    IEC0bits.AD1IE = 1; // Enable A/D interrupt
+                    measurement= setup_accelerometer();                              //configuramos el accel
+                    t3_rtcc_sync();
+                    enable_adc_int(); // Enable A/D interrupt
                 }
-                if (PORTDbits.RD5 == 1)                                             //si salta la interupcion lee los datos del accel
+                if (INT1_AC == 1)                                             //si salta la interupcion lee los datos del accel
                 {
                     if (logFile != NULL)                                            //si el archivo esta abierto lee datos y escribe al file
                     {
-                        IEC0bits.AD1IE = 0;                                         // disable A/D interrupt
+                        disable_adc_int();                                         // disable A/D interrupt
                         msec= read_accel(&output_data[0], &RtccTimeDateVal, msec);  // leemos el accelerometro y escribimos al string en output_data
                         FSfprintf(logFile, output_data);                            //escribe al file
                         //            FSfwrite( output_data, 2100, 1, logFile);
                         toggle_led1();                                              //togleamos led
-                        IEC0bits.AD1IE = 1;                                         // Enable A/D interrupt
+                        enable_adc_int();                                         // Enable A/D interrupt
                     } else {                                                        //si el archivo no esta abierto, lee la hora, y abre un archivo nuevo
-                        IEC0bits.AD1IE = 0;                                         // disable A/D interrupt
+                        disable_adc_int();                                      // disable A/D interrupt
                         RtccReadTimeDate(&RtccTimeDateVal);                         //leemos la hora y se guarda en RtccTimeDateVal
                         sprintf(name_file, "%x.%x.%x  %x-%x-%x.csv",
                                 RtccTimeDateVal.f.hour, RtccTimeDateVal.f.min,      //escribimos un string en name_file con el nombre del archivo a escribir
@@ -204,24 +201,24 @@ int main(void)
                         logFile = FSfopen(name_file, "w");                          //se abre el file
                         FSfprintf(logFile, "x,y,z,hr,min,sec,msec\n\0");            //es escribe el rotulo del archivo
                         msec = ReadTimer3();                                        //se leen los milisegundos
-                        IEC0bits.AD1IE = 1;                                         // Enable A/D interrupt
+                        enable_adc_int();                                          // Enable A/D interrupt
                     }
                 }
                 else
                     a = 0;                                                          //para testeo
             } else {                                                                //si el switch esta en off
-                IEC0bits.AD1IE = 0;
+                disable_adc_int();
                 if (logFile != NULL) {                                              //y el file esta abierto, lo cierra
                     FSfclose(logFile);                                              //se cierra el archivo
                     logFile = NULL;                                                 //se actualiza logFile que funciona como una bandera para saber si hay file abierto o no
                 }
-                //      if (measurement==1){                    //si esta en measurement, lo pone en standby sino no hace nada
+              if (measurement==1){                    //si esta en measurement, lo pone en standby sino no hace nada
               measurement=  standby_mode();                                         //se pone en standby el acel
                 
                 led1_off();                                                         // led1 off
                 all_modules_off();                                                  //se apagan los modulos para reducir el consumo
                 Sleep();                                                            //se duerme el micro
-                //          }
+                          }
             }
         }
         if (!(USBDeviceState == DETACHED_STATE)) {                                  //si se enchufa el usb

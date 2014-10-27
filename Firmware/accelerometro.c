@@ -457,3 +457,19 @@ void all_modules_off(void){
      CloseSPI1();
      AD1CON1bits.ADON = 0;
 }
+
+void disable_adc_int(void){
+    IEC0bits.AD1IE = 0; 
+}
+
+void enable_adc_int(void){
+    IEC0bits.AD1IE = 1; 
+}
+void disable_t3_int(void){
+    ConfigIntTimer3(T3_INT_OFF | T3_INT_PRIOR_5);
+}
+void t3_rtcc_sync(void){
+ while (mRtccIs2ndHalfSecond());
+ while (!mRtccIs2ndHalfSecond());                                //nos garantiza que el RTCC y el timer3 usado para mS esten sincronizados
+ OpenTimer3(T3_ON | T3_PS_1_256, 31250);                         //configuramos el timer para que tenga una frecuencia de un hertz
+}

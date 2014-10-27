@@ -32,6 +32,7 @@
 #define ACCEL_MASK         0x01ff
 #define CS      LATDbits.LATD0
 #define CS_TRIS   TRISDbits.TRISD0
+#define INT1_AC      PORTDbits.RD5
 
 #define BIT_22                       (1 << 22)
 #define BIT_21                       (1 << 21)
@@ -77,5 +78,10 @@ void InitializeSystem(unsigned char  *p_hora);
 void InitRTCC(unsigned char* rtcctime);
 void led1_off(void);
 void all_modules_off(void);
+void enable_adc_int(void);
+void disable_adc_int(void);
+void disable_t3_int(void);
+void t3_rtcc_sync(void);
+
 
 #endif
