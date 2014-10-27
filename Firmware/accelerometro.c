@@ -447,3 +447,13 @@ void toggle_led1(void) {
     mPORTGToggleBits(BIT_6);
 
 }
+void led1_off(void){
+                    mPORTGClearBits(BIT_6);
+}
+
+void all_modules_off(void){
+     CloseTimer3();
+     CloseSPI2();
+     CloseSPI1();
+     AD1CON1bits.ADON = 0;
+}

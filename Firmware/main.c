@@ -54,18 +54,13 @@ volatile BOOL buttonPressed;
 volatile BYTE buttonCount;
 
 
-UINT SPICON1Value;
-UINT SPICON2Value;
-UINT SPISTATValue, variable_aux;
 
 
-int8_t register_value, devid;
-int16_t x_accel_low, y_accel_low, z_accel_low, x_accel_high, y_accel_high, z_accel_high;
-uint16_t x_accel = 0, y_accel = 0, z_accel = 0;
+int8_t devid;
 uint16_t msec;
 char output_data[1000];
 char name_file[30], datatime[50];
-int measurement = 1, counter, string_length, sw_power, adcPtr;
+int measurement = 1, sw_power, adcPtr;
 
 rtccTimeDate RtccTimeDate, RtccTimeDateVal;
 int a, i;
@@ -154,17 +149,17 @@ void main(void)
 int main(void)
 #endif
 {
-    InitializeSystem((unsigned char*) &RtccTimeDateVal);
-    InitRTCC(&RtccTimeDateVal);
-    measurement = setup_accelerometer(); //configuramos el accel
-    devid = read_accel_register(0x00);
+    InitializeSystem((unsigned char*) &RtccTimeDateVal);                            //Inicializa los perifericos
+    InitRTCC(&RtccTimeDateVal);                                                     //Inicializa el RTCC
+    measurement = setup_accelerometer();                                            //configuramos el accel
+    devid = read_accel_register(0x00);                                              //se lee el devid para ver si esta bien configurado
     sw_power = PORTEbits.RE4;
     //         while (!FSInit());
     measurement = 0;
 
 
     while (1) {
-#if defined(USB_INTERRUPT)
+#if defined(USB_INTERRUPT)                                                          //actualiza el estado del USB
         if (USB_BUS_SENSE && (USBGetDeviceState() == DETACHED_STATE)) {
             USBDeviceAttach();
         } else // ADDED BY ANGUEL
@@ -172,88 +167,68 @@ int main(void)
             USBDeviceDetach();
         }
 #endif
-
-#if defined(USB_POLLING)
-        // Check bus status and service USB interrupts.
-        USBDeviceTasks(); // Interrupt or polling method.  If using polling, must call
-        // this function periodically.  This function will take care
-        // of processing and responding to SETUP transactions
-        // (such as during the enumeration process when you first
-        // plug in).  USB hosts require that USB devices should accept
-        // and process SETUP packets in a timely fashion.  Therefore,
-        // when using polling, this function should be called
-        // regularly (such as once every 1.8ms or faster** [see
-        // inline code comments in usb_device.c for explanation when
-        // "or faster" applies])  In most cases, the USBDeviceTasks()
-        // function does not take very long to execute (ex: <100
-        // instruction cycles) before it returns.
-#endif
-
-        ProcessIO();
+        ProcessIO();                                                                //funcion para leer la hora atraves del USB
 
 
         if ((USBDeviceState == DETACHED_STATE)) {
             if (sw_power == 1) {
-                if (measurement == 0) { //si no esta en measurement mode, lo pone en este modo
-                    IEC0bits.AD1IE = 0; // disable A/D interrupt
-                    InitializeSystem((unsigned char*) &RtccTimeDateVal);
-                    ConfigIntTimer3(T3_INT_OFF | T3_INT_PRIOR_5);
+                if (measurement == 0) {                                             //si no esta en measurement mode, lo pone en este modo
+                    IEC0bits.AD1IE = 0;                                             // disable A/D interrupt
+                    InitializeSystem((unsigned char*) &RtccTimeDateVal);            //Inicializa el sistema ya que estaba en sleep antes
+                    ConfigIntTimer3(T3_INT_OFF | T3_INT_PRIOR_5);                   //se Apagan la interrupts del timer3
 
-                    while (!FSInit()); //esperamos hasta inicializar la tarjeta SD
-                   measurement= setup_accelerometer(); //configuramos el accel
+                    while (!FSInit());                                              //esperamos hasta inicializar la tarjeta SD
+                   measurement= setup_accelerometer();                              //configuramos el accel
                     while (mRtccIs2ndHalfSecond());
-                    while (!mRtccIs2ndHalfSecond()); //nos garantiza que el RTCC y el timer3 usado para mS esten sincronizados
-                    OpenTimer3(T3_ON | T3_PS_1_256, 31250);
+                    while (!mRtccIs2ndHalfSecond());                                //nos garantiza que el RTCC y el timer3 usado para mS esten sincronizados
+                    OpenTimer3(T3_ON | T3_PS_1_256, 31250);                         //configuramos el timer para que tenga una frecuencia de un hertz
                     IEC0bits.AD1IE = 1; // Enable A/D interrupt
                 }
-                if (PORTDbits.RD5 == 1) //si salta la interupcion lee los datos del accel
+                if (PORTDbits.RD5 == 1)                                             //si salta la interupcion lee los datos del accel
                 {
-                    if (logFile != NULL) //si el archivo esta abierto lee datos y escribe al file
+                    if (logFile != NULL)                                            //si el archivo esta abierto lee datos y escribe al file
                     {
-                        IEC0bits.AD1IE = 0; // disable A/D interrupt
-                        msec= read_accel(&output_data[0], &RtccTimeDateVal, msec);
-                        FSfprintf(logFile, output_data);
+                        IEC0bits.AD1IE = 0;                                         // disable A/D interrupt
+                        msec= read_accel(&output_data[0], &RtccTimeDateVal, msec);  // leemos el accelerometro y escribimos al string en output_data
+                        FSfprintf(logFile, output_data);                            //escribe al file
                         //            FSfwrite( output_data, 2100, 1, logFile);
-                        toggle_led1();
-                        IEC0bits.AD1IE = 1; // Enable A/D interrupt
-                    } else { //si el archivo no esta abierto, lee la hora, y abre un archivo nuevo
-                        IEC0bits.AD1IE = 0; // disable A/D interrupt
-                        RtccReadTimeDate(&RtccTimeDateVal);
-                        sprintf(name_file, "%x.%x.%x  %x-%x-%x.csv", RtccTimeDateVal.f.hour, RtccTimeDateVal.f.min, RtccTimeDateVal.f.sec, RtccTimeDateVal.f.mday, RtccTimeDateVal.f.mon, RtccTimeDateVal.f.year);
-                        logFile = FSfopen(name_file, "w");
-                        FSfprintf(logFile, "x,y,z,hr,min,sec,msec\n\0");
-                        msec = ReadTimer3();
-                        IEC0bits.AD1IE = 1; // Enable A/D interrupt
-                        //                       logFile = FSfopen("log.csv","w");
+                        toggle_led1();                                              //togleamos led
+                        IEC0bits.AD1IE = 1;                                         // Enable A/D interrupt
+                    } else {                                                        //si el archivo no esta abierto, lee la hora, y abre un archivo nuevo
+                        IEC0bits.AD1IE = 0;                                         // disable A/D interrupt
+                        RtccReadTimeDate(&RtccTimeDateVal);                         //leemos la hora y se guarda en RtccTimeDateVal
+                        sprintf(name_file, "%x.%x.%x  %x-%x-%x.csv",
+                                RtccTimeDateVal.f.hour, RtccTimeDateVal.f.min,      //escribimos un string en name_file con el nombre del archivo a escribir
+                                RtccTimeDateVal.f.sec, RtccTimeDateVal.f.mday,
+                                RtccTimeDateVal.f.mon, RtccTimeDateVal.f.year);
+                        logFile = FSfopen(name_file, "w");                          //se abre el file
+                        FSfprintf(logFile, "x,y,z,hr,min,sec,msec\n\0");            //es escribe el rotulo del archivo
+                        msec = ReadTimer3();                                        //se leen los milisegundos
+                        IEC0bits.AD1IE = 1;                                         // Enable A/D interrupt
                     }
                 }
                 else
-                    a = 0;
-            } else {
-                IEC0bits.AD1IE = 0; // disable A/D interrupt
-                if (logFile != NULL) { //y el file esta abierto, lo cierra
-                    FSfclose(logFile);
-                    logFile = NULL;
+                    a = 0;                                                          //para testeo
+            } else {                                                                //si el switch esta en off
+                IEC0bits.AD1IE = 0;
+                if (logFile != NULL) {                                              //y el file esta abierto, lo cierra
+                    FSfclose(logFile);                                              //se cierra el archivo
+                    logFile = NULL;                                                 //se actualiza logFile que funciona como una bandera para saber si hay file abierto o no
                 }
                 //      if (measurement==1){                    //si esta en measurement, lo pone en standby sino no hace nada
-              measurement=  standby_mode();
+              measurement=  standby_mode();                                         //se pone en standby el acel
                 
-                mPORTGClearBits(BIT_6);
-                //                    to do apagar todos los modulos
-                CloseTimer3();
-                CloseSPI2();
-                CloseSPI1();
-                AD1CON1bits.ADON = 0;
-
-                Sleep();
+                led1_off();                                                         // led1 off
+                all_modules_off();                                                  //se apagan los modulos para reducir el consumo
+                Sleep();                                                            //se duerme el micro
                 //          }
             }
         }
-        if (!(USBDeviceState == DETACHED_STATE)) {
-            if (logFile != NULL) {
-                FSfclose(logFile);
-                logFile = NULL;
-                mPORTGClearBits(BIT_6);
+        if (!(USBDeviceState == DETACHED_STATE)) {                                  //si se enchufa el usb
+            if (logFile != NULL) {                                                  //y hay un archivo abierto
+                FSfclose(logFile);                                                  //se cierra el archivo
+                logFile = NULL;                                                     //se actualiza la bandera logFile
+                led1_off();
                 measurement = 0;
             }
         }

@@ -75,5 +75,7 @@ void toggle_led1(void);
 void read_initial_cond(void);
 void InitializeSystem(unsigned char  *p_hora);
 void InitRTCC(unsigned char* rtcctime);
+void led1_off(void);
+void all_modules_off(void);
 
 #endif
