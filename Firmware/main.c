@@ -1122,36 +1122,36 @@ void __attribute__((interrupt, no_auto_psv)) _ADC1Interrupt(void) {
 
     IFS0bits.AD1IF = 0; //Clear the ADC1 Interrupt Flag
     adcPtr = ADC1BUF0;
-//    if (adcPtr <= 546) { //en este valor tenemos aproximadamente 3.5V en la bateria
-//        //            prender led rojo
-//        //                    mPORTGToggleBits(BIT_6);
-//        if (logFile != NULL) { //y el file esta abierto, lo cierra
-//            FSfclose(logFile);
-//            logFile = NULL;
-//        }
-//        standby_mode();
-//        measurement = 0;
-//        //to do apagar modulos y led
-//        //con watch dog podemos apagar y prender un led
-//        /* tenemos que definir adcPtr como volatil
-//         prender led
-//         * delay
-//         * apagar led
-//         *
-//         * EnableWDT(WDT_ENABLE);
-//         * sleep
-//         * Disable wdt
-//         * }
-//         */
-//        mPORTGClearBits(BIT_6);
-//        //                    to do apagar todos los modulos
-//        CloseTimer3();
-//        CloseSPI2();
-//        CloseSPI1();
-//        AD1CON1bits.ADON = 0;
-//
-//        Sleep();
-//    }
+    if (adcPtr <= 546) { //en este valor tenemos aproximadamente 3.5V en la bateria
+        //            prender led rojo
+        //                    mPORTGToggleBits(BIT_6);
+        if (logFile != NULL) { //y el file esta abierto, lo cierra
+            FSfclose(logFile);
+            logFile = NULL;
+        }
+        standby_mode();
+        measurement = 0;
+        //to do apagar modulos y led
+        //con watch dog podemos apagar y prender un led
+        /* tenemos que definir adcPtr como volatil
+         prender led
+         * delay
+         * apagar led
+         *
+         * EnableWDT(WDT_ENABLE);
+         * sleep
+         * Disable wdt
+         * }
+         */
+        mPORTGClearBits(BIT_6);
+        //                    to do apagar todos los modulos
+        CloseTimer3();
+        CloseSPI2();
+        CloseSPI1();
+        AD1CON1bits.ADON = 0;
+
+        Sleep();
+    }
 
 
 

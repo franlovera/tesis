@@ -1,4 +1,4 @@
-Microchip Technology Inc, vƒ=
+Microchip Technology Inc, vƒ…
 
 Tool Name:
   c:\program files (x86)\microchip\xc16\v1.21\bin\bin\..\bin/elf-ld.exe
@@ -55,9 +55,9 @@ Command:
 Archive member included because of file (symbol)
 
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(CloseSPI1.o)
-                              build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o (_CloseSPI1)
+                              build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o (_CloseSPI1)
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(CloseSPI2.o)
-                              build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o (_CloseSPI2)
+                              build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o (_CloseSPI2)
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(OpenSPI2.o)
                               build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o (_OpenSPI2)
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(ReadTimer3.o)
@@ -75,7 +75,7 @@ c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fx
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(OpenTimer3_v1.o)
                               build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o (_OpenTimer3_v1)
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(CloseTimer3_v1.o)
-                              build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o (_CloseTimer3_v1)
+                              build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o (_CloseTimer3_v1)
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_standard.o)
                               (__resetPRI)
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(data_init_standard.o)
@@ -126,12 +126,12 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0xce4          0x1356  (4950)
 .const                       0xee4               0x1e8           0x2dc  (732)
-.text                       0x10cc              0xabcc         0x101b2  (65970)
-.dinit                      0xbc98               0x12c           0x1c2  (450)
-.text                       0xbdc4                0x56            0x81  (129)
-.init.delay32               0xbe1a                0x1c            0x2a  (42)
+.text                       0x10cc              0xac0c         0x10212  (66066)
+.dinit                      0xbcd8               0x12c           0x1c2  (450)
+.text                       0xbe04                0x56            0x81  (129)
+.init.delay32               0xbe5a                0x1c            0x2a  (42)
 
-                     Total program memory used (bytes):        0x11a51  (72273) 27%
+                     Total program memory used (bytes):        0x11ab1  (72369) 27%
 
 
 Data Memory  [Origin = 0x800, Length = 0x4000]
@@ -613,22 +613,22 @@ External Symbols in Program Memory (by address):
                   0x00b85e                  __RTCCInterrupt
                   0x00b866                  __T3Interrupt
                   0x00b86e                  __ADC1Interrupt
-                  0x00b87e                  _USBCheckCDCRequest
-                  0x00b9be                  _CDCInitEP
-                  0x00ba08                  _USBCDCEventHandler
-                  0x00ba4c                  _getsUSBUSART
-                  0x00bac2                  _putUSBUSART
-                  0x00baec                  _putsUSBUSART
-                  0x00bb42                  _putrsUSBUSART
-                  0x00bb98                  _CDCTxService
-                  0x00bdc4                  _USBSleepOnSuspend
-                  0x00be1a                  ___delay32
+                  0x00b8be                  _USBCheckCDCRequest
+                  0x00b9fe                  _CDCInitEP
+                  0x00ba48                  _USBCDCEventHandler
+                  0x00ba8c                  _getsUSBUSART
+                  0x00bb02                  _putUSBUSART
+                  0x00bb2c                  _putsUSBUSART
+                  0x00bb82                  _putrsUSBUSART
+                  0x00bbd8                  _CDCTxService
+                  0x00be04                  _USBSleepOnSuspend
+                  0x00be5a                  ___delay32
 
 External Symbols in Program Memory (by name):
 
                   0x004a20                  _Alias_LFN_Object
-                  0x00b9be                  _CDCInitEP
-                  0x00bb98                  _CDCTxService
+                  0x00b9fe                  _CDCInitEP
+                  0x00bbd8                  _CDCTxService
                   0x004e7c                  _CacheTime
                   0x0041c0                  _Cache_File_Entry
                   0x0002d4                  _CloseSPI1
@@ -724,9 +724,9 @@ External Symbols in Program Memory (by name):
                   0x00b6e0                  _USBCBSuspend
                   0x00b6e6                  _USBCBWakeFromSuspend
                   0x00b6ec                  _USBCB_SOF_Handler
-                  0x00ba08                  _USBCDCEventHandler
+                  0x00ba48                  _USBCDCEventHandler
                   0x0088d8                  _USBCancelIO
-                  0x00b87e                  _USBCheckCDCRequest
+                  0x00b8be                  _USBCheckCDCRequest
                   0x0094f8                  _USBCheckMSDRequest
                   0x008a52                  _USBCtrlEPAllowDataStage
                   0x0089ea                  _USBCtrlEPAllowStatusStage
@@ -735,7 +735,7 @@ External Symbols in Program Memory (by name):
                   0x0084e0                  _USBDeviceInit
                   0x008794                  _USBEnableEndpoint
                   0x00945c                  _USBMSDInit
-                  0x00bdc4                  _USBSleepOnSuspend
+                  0x00be04                  _USBSleepOnSuspend
                   0x008868                  _USBStallEndpoint
                   0x0087ce                  _USBTransferOnePacket
                   0x000fca                  _USB_CD_Ptr
@@ -751,7 +751,7 @@ External Symbols in Program Memory (by name):
                   0x00b85e                  __RTCCInterrupt
                   0x00b866                  __T3Interrupt
                   0x0085e4                  __USB1Interrupt
-                  0x00be1a                  ___delay32
+                  0x00be5a                  ___delay32
                   0x000702                  ___divdi3
                   0x000762                  ___moddi3
                   0x0006ec                  ___udivdi3
@@ -774,7 +774,7 @@ External Symbols in Program Memory (by name):
                   0x00b2e4                  _disable_t3_int
                   0x00b2dc                  _enable_adc_int
                   0x0064c4                  _flushData
-                  0x00ba4c                  _getsUSBUSART
+                  0x00ba8c                  _getsUSBUSART
                   0x00b264                  _inc_BCD
                   0x00104a                  _inq_resp
                   0x00b2b8                  _led1_off
@@ -783,9 +783,9 @@ External Symbols in Program Memory (by name):
                   0x0007be                  _memcpy
                   0x0007cc                  _memset
                   0x00b474                  _mySetLineCodingHandler
-                  0x00bac2                  _putUSBUSART
-                  0x00bb42                  _putrsUSBUSART
-                  0x00baec                  _putsUSBUSART
+                  0x00bb02                  _putUSBUSART
+                  0x00bb82                  _putrsUSBUSART
+                  0x00bb2c                  _putsUSBUSART
                   0x00aec4                  _read_accel
                   0x00ad3c                  _read_accel_register
                   0x00b102                  _read_power_mode
@@ -969,17 +969,17 @@ __CONFIG1         0x02abfe          0x2
 .comment
  *(.comment)
 
-.debug_info       0x000000      0x1230e
+.debug_info       0x000000      0x12495
  *(.debug_info)
  .debug_info      0x000000       0x2b88 build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_device.o
  .debug_info      0x002b88       0x1ae1 build/PIC24F_Starter_Kit_1/production/_ext/1083301514/usb_function_cdc.o
  .debug_info      0x004669       0x20db build/PIC24F_Starter_Kit_1/production/_ext/123996954/usb_function_msd.o
  .debug_info      0x006744        0x652 build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_hal_pic24.o
  .debug_info      0x006d96        0x806 build/PIC24F_Starter_Kit_1/production/_ext/1472/usb_descriptors.o
- .debug_info      0x00759c       0x291a build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
- .debug_info      0x009eb6       0x1970 build/PIC24F_Starter_Kit_1/production/_ext/491339551/SD-SPI.o
- .debug_info      0x00b826       0x3fea build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
- .debug_info      0x00f810       0x2afe build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
+ .debug_info      0x00759c       0x2aa1 build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
+ .debug_info      0x00a03d       0x1970 build/PIC24F_Starter_Kit_1/production/_ext/491339551/SD-SPI.o
+ .debug_info      0x00b9ad       0x3fea build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
+ .debug_info      0x00f997       0x2afe build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000       0x12ca
@@ -994,17 +994,17 @@ __CONFIG1         0x02abfe          0x2
  .debug_abbrev    0x000e73        0x2b1 build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
  .debug_abbrev    0x001124        0x1a6 build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
 
-.debug_line       0x000000       0xa8b4
+.debug_line       0x000000       0xa914
  *(.debug_line)
  .debug_line      0x000000       0x12cf build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_device.o
  .debug_line      0x0012cf        0x62e build/PIC24F_Starter_Kit_1/production/_ext/1083301514/usb_function_cdc.o
  .debug_line      0x0018fd       0x1099 build/PIC24F_Starter_Kit_1/production/_ext/123996954/usb_function_msd.o
  .debug_line      0x002996        0x184 build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_hal_pic24.o
  .debug_line      0x002b1a         0xf6 build/PIC24F_Starter_Kit_1/production/_ext/1472/usb_descriptors.o
- .debug_line      0x002c10        0x958 build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
- .debug_line      0x003568        0xe11 build/PIC24F_Starter_Kit_1/production/_ext/491339551/SD-SPI.o
- .debug_line      0x004379       0x5ade build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
- .debug_line      0x009e57        0xa5d build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
+ .debug_line      0x002c10        0x9b8 build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
+ .debug_line      0x0035c8        0xe11 build/PIC24F_Starter_Kit_1/production/_ext/491339551/SD-SPI.o
+ .debug_line      0x0043d9       0x5ade build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
+ .debug_line      0x009eb7        0xa5d build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
 
 .debug_frame      0x000000        0xb00
  *(.debug_frame)
@@ -1017,17 +1017,17 @@ __CONFIG1         0x02abfe          0x2
  .debug_frame     0x000608        0x394 build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
  .debug_frame     0x00099c        0x164 build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
 
-.debug_str        0x000000        0xcb0
+.debug_str        0x000000        0xcbc
  *(.debug_str)
  .debug_str       0x000000        0x286 build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_device.o
  .debug_str       0x000286         0xe9 build/PIC24F_Starter_Kit_1/production/_ext/1083301514/usb_function_cdc.o
  .debug_str       0x00036f        0x13a build/PIC24F_Starter_Kit_1/production/_ext/123996954/usb_function_msd.o
  .debug_str       0x0004a9         0x1e build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_hal_pic24.o
  .debug_str       0x0004c7         0x2a build/PIC24F_Starter_Kit_1/production/_ext/1472/usb_descriptors.o
- .debug_str       0x0004f1        0x189 build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
- .debug_str       0x00067a        0x11f build/PIC24F_Starter_Kit_1/production/_ext/491339551/SD-SPI.o
- .debug_str       0x000799        0x401 build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
- .debug_str       0x000b9a        0x116 build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
+ .debug_str       0x0004f1        0x195 build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
+ .debug_str       0x000686        0x11f build/PIC24F_Starter_Kit_1/production/_ext/491339551/SD-SPI.o
+ .debug_str       0x0007a5        0x401 build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
+ .debug_str       0x000ba6        0x116 build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
 
 .debug_loc
  *(.debug_loc)
@@ -2426,7 +2426,7 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x0000c0        0xfd0
+                  0x0000c0        0xff3
  .debug_pubtypes
                   0x0000c0        0x2ad build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_device.o
  .debug_pubtypes
@@ -2438,94 +2438,94 @@ LOAD data_init
  .debug_pubtypes
                   0x0006f8         0x59 build/PIC24F_Starter_Kit_1/production/_ext/1472/usb_descriptors.o
  .debug_pubtypes
-                  0x000751        0x2d8 build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
+                  0x000751        0x2fb build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
  .debug_pubtypes
-                  0x000a29        0x151 build/PIC24F_Starter_Kit_1/production/_ext/491339551/SD-SPI.o
+                  0x000a4c        0x151 build/PIC24F_Starter_Kit_1/production/_ext/491339551/SD-SPI.o
  .debug_pubtypes
-                  0x000b7a        0x1ad build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
+                  0x000b9d        0x1ad build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
  .debug_pubtypes
-                  0x000d27        0x369 build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
+                  0x000d4a        0x369 build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
 
 __c30_signature
-                  0x001090         0xea
+                  0x0010b4         0xea
  __c30_signature
-                  0x001090          0x6 build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_device.o
+                  0x0010b4          0x6 build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_device.o
  __c30_signature
-                  0x001096          0x6 build/PIC24F_Starter_Kit_1/production/_ext/1083301514/usb_function_cdc.o
+                  0x0010ba          0x6 build/PIC24F_Starter_Kit_1/production/_ext/1083301514/usb_function_cdc.o
  __c30_signature
-                  0x00109c          0x6 build/PIC24F_Starter_Kit_1/production/_ext/123996954/usb_function_msd.o
+                  0x0010c0          0x6 build/PIC24F_Starter_Kit_1/production/_ext/123996954/usb_function_msd.o
  __c30_signature
-                  0x0010a2          0x6 build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_hal_pic24.o
+                  0x0010c6          0x6 build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_hal_pic24.o
  __c30_signature
-                  0x0010a8          0x6 build/PIC24F_Starter_Kit_1/production/_ext/1472/usb_descriptors.o
+                  0x0010cc          0x6 build/PIC24F_Starter_Kit_1/production/_ext/1472/usb_descriptors.o
  __c30_signature
-                  0x0010ae          0x6 build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
+                  0x0010d2          0x6 build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
  __c30_signature
-                  0x0010b4          0x6 build/PIC24F_Starter_Kit_1/production/_ext/491339551/SD-SPI.o
+                  0x0010d8          0x6 build/PIC24F_Starter_Kit_1/production/_ext/491339551/SD-SPI.o
  __c30_signature
-                  0x0010ba          0x6 build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
+                  0x0010de          0x6 build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
  __c30_signature
-                  0x0010c0          0x6 build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
+                  0x0010e4          0x6 build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
  __c30_signature
-                  0x0010c6          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(CloseSPI1.o)
+                  0x0010ea          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(CloseSPI1.o)
  __c30_signature
-                  0x0010cc          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(CloseSPI2.o)
+                  0x0010f0          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(CloseSPI2.o)
  __c30_signature
-                  0x0010d2          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(OpenSPI2.o)
+                  0x0010f6          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(OpenSPI2.o)
  __c30_signature
-                  0x0010d8          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(ReadTimer3.o)
+                  0x0010fc          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(ReadTimer3.o)
  __c30_signature
-                  0x0010de          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(RTCCInitClock_v1.o)
+                  0x001102          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(RTCCInitClock_v1.o)
  __c30_signature
-                  0x0010e4          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(RtccReadTimeDate_v1.o)
+                  0x001108          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(RtccReadTimeDate_v1.o)
  __c30_signature
-                  0x0010ea          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(RtccWriteTimeDate_v1.o)
+                  0x00110e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(RtccWriteTimeDate_v1.o)
  __c30_signature
-                  0x0010f0          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(RtccWrOn_v1.o)
+                  0x001114          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(RtccWrOn_v1.o)
  __c30_signature
-                  0x0010f6          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(ConfigIntTimer3_v1.o)
+                  0x00111a          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(ConfigIntTimer3_v1.o)
  __c30_signature
-                  0x0010fc          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(OpenTimer3_v1.o)
+                  0x001120          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(OpenTimer3_v1.o)
  __c30_signature
-                  0x001102          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(CloseTimer3_v1.o)
+                  0x001126          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/PIC24F\libpPIC24Fxxx-elf.a(CloseTimer3_v1.o)
  __c30_signature
-                  0x001108          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_standard.o)
+                  0x00112c          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x00110e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(data_init_standard.o)
+                  0x001132          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(data_init_standard.o)
  __c30_signature
-                  0x001114          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(delay32.eo)
+                  0x001138          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(delay32.eo)
  __c30_signature
-                  0x00111a          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
+                  0x00113e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
  __c30_signature
-                  0x001120          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(umodsi3.eo)
+                  0x001144          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(umodsi3.eo)
  __c30_signature
-                  0x001126          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(divmoddi3.eo)
+                  0x00114a          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(divmoddi3.eo)
  __c30_signature
-                  0x00112c          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(memcpy.eo)
+                  0x001150          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(memcpy.eo)
  __c30_signature
-                  0x001132          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(memset.eo)
+                  0x001156          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(memset.eo)
  __c30_signature
-                  0x001138          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(strlen.eo)
+                  0x00115c          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(strlen.eo)
  __c30_signature
-                  0x00113e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(strncpy.eo)
+                  0x001162          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(strncpy.eo)
  __c30_signature
-                  0x001144          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(sprintf_cdnopuxX.dXXeo)
+                  0x001168          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(sprintf_cdnopuxX.dXXeo)
  __c30_signature
-                  0x00114a          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(doprnt_cdnopuxX.dXXeo)
+                  0x00116e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(doprnt_cdnopuxX.dXXeo)
  __c30_signature
-                  0x001150          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(snprintf_cdnopuxX.dXXeo)
+                  0x001174          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(snprintf_cdnopuxX.dXXeo)
  __c30_signature
-                  0x001156          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(vsnprintf_cdnopuxX.dXXeo)
+                  0x00117a          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(vsnprintf_cdnopuxX.dXXeo)
  __c30_signature
-                  0x00115c          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(fputc.eo)
+                  0x001180          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(fputc.eo)
  __c30_signature
-                  0x001162          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(_iob.eo)
+                  0x001186          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(_iob.eo)
  __c30_signature
-                  0x001168          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(flsbuf.eo)
+                  0x00118c          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(flsbuf.eo)
  __c30_signature
-                  0x00116e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(write.eo)
+                  0x001192          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(write.eo)
  __c30_signature
-                  0x001174          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(c30_uart.eo)
+                  0x001198          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(c30_uart.eo)
 
 .nbss               0x0800        0xf26
  .nbss              0x0800        0x77e build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
@@ -2731,7 +2731,7 @@ _03930D80544e6be5
  .const             0x90a0         0x1a build/PIC24F_Starter_Kit_1/production/_ext/1472/accelerometro.o
  .const             0x90ba         0x12 build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
 
-.text             0x0010cc       0xabcc
+.text             0x0010cc       0xac0c
  .text            0x0010cc       0x7414 build/PIC24F_Starter_Kit_1/production/_ext/491339551/FSIO.o
                   0x0010cc                  _FSInit
                   0x00111e                  _FILEfind
@@ -2848,7 +2848,7 @@ _03930D80544e6be5
                   0x00b2dc                  _enable_adc_int
                   0x00b2e4                  _disable_t3_int
                   0x00b2ee                  _t3_rtcc_sync
- .text            0x00b312        0x56c build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
+ .text            0x00b312        0x5ac build/PIC24F_Starter_Kit_1/production/_ext/1472/main.o
                   0x00b312                  _main
                   0x00b474                  _mySetLineCodingHandler
                   0x00b4d0                  _ProcessIO
@@ -2865,23 +2865,23 @@ _03930D80544e6be5
                   0x00b85e                  __RTCCInterrupt
                   0x00b866                  __T3Interrupt
                   0x00b86e                  __ADC1Interrupt
- .text            0x00b87e        0x41a build/PIC24F_Starter_Kit_1/production/_ext/1083301514/usb_function_cdc.o
-                  0x00b87e                  _USBCheckCDCRequest
-                  0x00b9be                  _CDCInitEP
-                  0x00ba08                  _USBCDCEventHandler
-                  0x00ba4c                  _getsUSBUSART
-                  0x00bac2                  _putUSBUSART
-                  0x00baec                  _putsUSBUSART
-                  0x00bb42                  _putrsUSBUSART
-                  0x00bb98                  _CDCTxService
+ .text            0x00b8be        0x41a build/PIC24F_Starter_Kit_1/production/_ext/1083301514/usb_function_cdc.o
+                  0x00b8be                  _USBCheckCDCRequest
+                  0x00b9fe                  _CDCInitEP
+                  0x00ba48                  _USBCDCEventHandler
+                  0x00ba8c                  _getsUSBUSART
+                  0x00bb02                  _putUSBUSART
+                  0x00bb2c                  _putsUSBUSART
+                  0x00bb82                  _putrsUSBUSART
+                  0x00bbd8                  _CDCTxService
 
-.dinit            0x00bc98        0x12c
- .dinit           0x00bc98        0x12c data_init
+.dinit            0x00bcd8        0x12c
+ .dinit           0x00bcd8        0x12c data_init
 
-.text             0x00bdc4         0x56
- .text            0x00bdc4         0x56 build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_hal_pic24.o
-                  0x00bdc4                  _USBSleepOnSuspend
+.text             0x00be04         0x56
+ .text            0x00be04         0x56 build/PIC24F_Starter_Kit_1/production/_ext/926206843/usb_hal_pic24.o
+                  0x00be04                  _USBSleepOnSuspend
 
-.init.delay32     0x00be1a         0x1c
- .init.delay32    0x00be1a         0x1c c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(delay32.eo)
-                  0x00be1a                  ___delay32
+.init.delay32     0x00be5a         0x1c
+ .init.delay32    0x00be5a         0x1c c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(delay32.eo)
+                  0x00be5a                  ___delay32
